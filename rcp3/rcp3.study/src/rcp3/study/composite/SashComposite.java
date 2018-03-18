@@ -14,16 +14,38 @@ import org.eclipse.swt.widgets.Display;
 /**
  * This composite has a sash bar which can hide or show a "hide composite".
  * 
+ * Usage example:
+ * <code>
+ * // SWT.LEFT means left hide.
+ * // SWT.RIGHT means right hide.
+ * // SWT.TOP means top hide.
+ * // SWT.BOTTOM means bottom hide.
+ * SashComposite sashComp = new SashComposite(shell, SWT.BORDER, new HideStyle(SWT.LEFT, 300, true));
+ * Composite hideComp = sashComp.getHideComp();
+ * Composite mainComp = sashComp.getMainComp();
+ * </code>
  * @author alzhang
  */
 public class SashComposite extends Composite {
 	
-	private static class HideStyle {
+	/**
+	 * Contains parameters that define the behavior of "hide composite".
+	 * 
+	 * @author alzhang
+	 */
+	public static class HideStyle {
 		private int direction = SWT.LEFT;
 		private int width = 300;
 		private boolean showByDefault = true;
 		
-		private HideStyle(int hideDirection, int hideWidth, boolean showByDefault) {
+		/**
+		 * Create a HideStyle of SashComposite.
+		 * 
+		 * @param direction indicate the direction of hide composite.
+		 * @param width indicate the width of hide composite.
+		 * @param showByDefault true means show hide composite at first open.
+		 */
+		public HideStyle(int hideDirection, int hideWidth, boolean showByDefault) {
 			super();
 			this.direction = hideDirection;
 			this.width = hideWidth;
@@ -43,22 +65,10 @@ public class SashComposite extends Composite {
 	private static final Color COLOR_LIGHT_BLUE = new Color(Display.getDefault(), 225, 230, 246);
 	
 	private final Composite hideComp;
-	private Composite sashComp;
+	private final Composite sashComp;
 	private final Composite mainComp;
 	
 	private final HideStyle hideStyle;
-
-	/**
-	 * Create a HideStyle of SashComposite.
-	 * 
-	 * @param direction indicate the direction to hide composite.
-	 * @param width indicate the width of hide composite.
-	 * @param showByDefault true means show hide composite at first open.
-	 * @return a HideStyle.
-	 */
-	public static HideStyle style(int direction, int width, boolean showByDefault) {
-		return new HideStyle(direction, width, showByDefault);
-	}
 
 	/**
 	 * Construct an instance.

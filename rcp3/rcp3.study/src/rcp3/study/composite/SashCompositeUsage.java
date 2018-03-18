@@ -9,6 +9,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
+import rcp3.study.composite.SashComposite.HideStyle;
+
 public class SashCompositeUsage {
 	
 	public static void main(String[] args) {
@@ -30,16 +32,16 @@ public class SashCompositeUsage {
 	public static void init(Shell shell) {
 		shell.setLayout(new FillLayout());
 		
-		SashComposite comp = new SashComposite(shell, SWT.BORDER, SashComposite.style(SWT.LEFT, 300, true));
+		SashComposite sashComp = new SashComposite(shell, SWT.BORDER, new HideStyle(SWT.RIGHT, 300, true));
 		
-		Composite hideComp = comp.getHideComp();
+		Composite hideComp = sashComp.getHideComp();
 		GridLayoutFactory.fillDefaults().applyTo(hideComp);
 		
 		CLabel hideLbl = new CLabel(hideComp, SWT.CENTER);
 		hideLbl.setText("Hide Composite");
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(hideLbl);
 		
-		Composite mainComp = comp.getMainComp();
+		Composite mainComp = sashComp.getMainComp();
 		GridLayoutFactory.fillDefaults().applyTo(mainComp);
 		
 		CLabel mainLbl = new CLabel(mainComp, SWT.CENTER);
