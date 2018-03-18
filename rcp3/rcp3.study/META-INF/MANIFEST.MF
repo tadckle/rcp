@@ -5,6 +5,8 @@ Bundle-SymbolicName: rcp3.study;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: rcp3.study.Activator
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.ui.forms;bundle-version="3.6.200",
+ org.eclipse.ui.forms.source;bundle-version="3.6.200"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
