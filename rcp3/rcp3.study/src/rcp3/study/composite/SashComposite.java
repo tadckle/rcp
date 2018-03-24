@@ -3,13 +3,14 @@ package rcp3.study.composite;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 
 /**
  * This composite has a sash bar which can hide or show a "hide composite".
@@ -64,11 +65,25 @@ public class SashComposite extends Composite {
 	
 	private static final Color COLOR_LIGHT_BLUE = new Color(Display.getDefault(), 225, 230, 246);
 	
+	private static final Image ARROW_LEFT_IMG = new Image(Display.getDefault(),  
+			SashComposite.class.getResource("arrow-left.png").getPath());
+	
+	private static final Image ARROW_RIGHT_IMG = new Image(Display.getDefault(),  
+			SashComposite.class.getResource("arrow-right.png").getPath());
+	
+	private static final Image ARROW_UP_IMG = new Image(Display.getDefault(),  
+			SashComposite.class.getResource("arrow-up.png").getPath());
+	
+	private static final Image ARROW_DOWN_IMG = new Image(Display.getDefault(),  
+			SashComposite.class.getResource("arrow-down.png").getPath());
+	
 	private final Composite hideComp;
 	private final Composite sashComp;
 	private final Composite mainComp;
 	
 	private final HideStyle hideStyle;
+
+	private Label sashLbl;
 
 	/**
 	 * Construct an instance.
@@ -126,16 +141,35 @@ public class SashComposite extends Composite {
 	private void initSash(Composite middleComp) {
 		GridLayoutFactory.fillDefaults().applyTo(middleComp);
 		
-		CLabel sashLbl = new CLabel(middleComp, SWT.CENTER);
-		sashLbl.setText(hideStyle.showByDefault ? ">>" : "<<");
+		sashLbl = new Label(middleComp, SWT.CENTER);
+		setSashLabelImgge(hideStyle.showByDefault);
 		sashLbl.setBackground(COLOR_LIGHT_BLUE);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(sashLbl);
 		
 		sashLbl.addListener(SWT.MouseUp, e -> {
-			sashLbl.setText(hideComp.isVisible() ? "<<" : ">>");
+			setSashLabelImgge(!hideComp.isVisible());
 			setControlVisible(hideComp, !hideComp.isVisible());
 			SashComposite.this.layout(true);
 		});
+	}
+	
+	private void setSashLabelImgge(boolean isVisible) {
+		switch (hideStyle.direction) {
+			case SWT.LEFT:
+				sashLbl.setImage(isVisible ? ARROW_LEFT_IMG : ARROW_RIGHT_IMG);
+				break;
+			case SWT.RIGHT:
+				sashLbl.setImage(isVisible ? ARROW_RIGHT_IMG : ARROW_LEFT_IMG);
+				break;
+			case SWT.UP:
+				sashLbl.setImage(isVisible ? ARROW_UP_IMG : ARROW_DOWN_IMG);
+				break;
+			case SWT.DOWN:
+				sashLbl.setImage(isVisible ? ARROW_DOWN_IMG : ARROW_UP_IMG);
+				break;
+			default:
+				break;
+		}
 	}
 	
 	private void setControlVisible(Control control, boolean visible) {
