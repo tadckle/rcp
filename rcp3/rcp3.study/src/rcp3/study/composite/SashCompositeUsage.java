@@ -30,9 +30,18 @@ public class SashCompositeUsage {
 	}
 	
 	public static void init(Shell shell) {
-		shell.setLayout(new FillLayout());
+		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(shell);
 		
-		SashComposite sashComp = new SashComposite(shell, SWT.BORDER, new HideStyle(SWT.RIGHT, 300, true));
+		createSashComp(shell, SWT.LEFT);
+		createSashComp(shell, SWT.TOP);
+		createSashComp(shell, SWT.RIGHT);
+		createSashComp(shell, SWT.BOTTOM);
+	}
+
+	private static void createSashComp(Shell shell, int direction) {
+		SashComposite sashComp = new SashComposite(shell, SWT.BORDER, new HideStyle(direction, 100, false));
+		sashComp.setSashText("Sash Label");
+		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).hint(250, 250).applyTo(sashComp);
 		
 		Composite hideComp = sashComp.getHideComp();
 		GridLayoutFactory.fillDefaults().applyTo(hideComp);

@@ -11,6 +11,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+
+import rcp3.study.composite.DirectionLabel.Rotation;
 
 /**
  * This composite has a sash bar which can hide or show a "hide composite".
@@ -83,7 +86,8 @@ public class SashComposite extends Composite {
 	
 	private final HideStyle hideStyle;
 
-	private Label sashLbl;
+	private Label sashImgLbl;
+	private DirectionLabel sashTxtLbl;
 
 	/**
 	 * Construct an instance.
@@ -139,33 +143,53 @@ public class SashComposite extends Composite {
 	}
 
 	private void initSash(Composite middleComp) {
-		GridLayoutFactory.fillDefaults().applyTo(middleComp);
+		if (hideStyle.isHorizontal()) {
+			GridLayoutFactory.swtDefaults().margins(0, 5).spacing(0, 0).applyTo(middleComp);
+		} else {
+			GridLayoutFactory.swtDefaults().margins(5, 0).spacing(0, 0).numColumns(2).applyTo(middleComp);
+		}
 		
-		sashLbl = new Label(middleComp, SWT.CENTER);
-		setSashLabelImgge(hideStyle.showByDefault);
-		sashLbl.setBackground(COLOR_LIGHT_BLUE);
-		GridDataFactory.fillDefaults().grab(true, true).applyTo(sashLbl);
+		middleComp.setBackground(COLOR_LIGHT_BLUE);
+		middleComp.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		
-		sashLbl.addListener(SWT.MouseUp, e -> {
-			setSashLabelImgge(!hideComp.isVisible());
+		sashTxtLbl = new DirectionLabel(middleComp, "", SWT.NONE);
+		if (hideStyle.isHorizontal()) {
+			sashTxtLbl.setRotation(Rotation.ANGLE_90);
+		}
+		sashTxtLbl.setBackground(COLOR_LIGHT_BLUE);
+		GridDataFactory.swtDefaults().applyTo(sashTxtLbl);
+		
+		sashImgLbl = new Label(middleComp, SWT.CENTER);
+		if (hideStyle.isHorizontal()) {
+			GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.FILL).grab(false, true).applyTo(sashImgLbl);
+		} else {
+			GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(sashImgLbl);
+		}
+		
+		Listener sashListener = e -> {
+			updateSashImage(!hideComp.isVisible());
 			setControlVisible(hideComp, !hideComp.isVisible());
 			SashComposite.this.layout(true);
-		});
+		};
+		sashTxtLbl.addListener(SWT.MouseUp, sashListener);
+		sashImgLbl.addListener(SWT.MouseUp,sashListener);
+		
+		updateSashImage(hideStyle.showByDefault);
 	}
 	
-	private void setSashLabelImgge(boolean isVisible) {
+	private void updateSashImage(boolean isVisible) {
 		switch (hideStyle.direction) {
 			case SWT.LEFT:
-				sashLbl.setImage(isVisible ? ARROW_LEFT_IMG : ARROW_RIGHT_IMG);
+				sashImgLbl.setImage(isVisible ? ARROW_LEFT_IMG : ARROW_RIGHT_IMG);
 				break;
 			case SWT.RIGHT:
-				sashLbl.setImage(isVisible ? ARROW_RIGHT_IMG : ARROW_LEFT_IMG);
+				sashImgLbl.setImage(isVisible ? ARROW_RIGHT_IMG : ARROW_LEFT_IMG);
 				break;
 			case SWT.UP:
-				sashLbl.setImage(isVisible ? ARROW_UP_IMG : ARROW_DOWN_IMG);
+				sashImgLbl.setImage(isVisible ? ARROW_UP_IMG : ARROW_DOWN_IMG);
 				break;
 			case SWT.DOWN:
-				sashLbl.setImage(isVisible ? ARROW_DOWN_IMG : ARROW_UP_IMG);
+				sashImgLbl.setImage(isVisible ? ARROW_DOWN_IMG : ARROW_UP_IMG);
 				break;
 			default:
 				break;
@@ -194,6 +218,17 @@ public class SashComposite extends Composite {
 	 */
 	public Composite getMainComp() {
 		return mainComp;
+	}
+	
+	/**
+	 * Set sash text.
+	 * 
+	 * @param text the sash text to set.
+	 */
+	public void setSashText(String text) {
+		if (sashTxtLbl != null && text != null) {
+			sashTxtLbl.setText(text.toUpperCase());
+		}
 	}
 	
 }
