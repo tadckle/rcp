@@ -39,7 +39,7 @@ public class DirectionLabel extends Composite {
 	 * Construct an DirectionLabel.
 	 * 
 	 * @param parent the parent composite.
-	 * @param text the label text.
+	 * @param atext the label text.
 	 * @param style the appearance style.
 	 */
 	public DirectionLabel(Composite parent, String atext, int style) {
