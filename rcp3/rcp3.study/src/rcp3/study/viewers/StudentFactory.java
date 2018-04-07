@@ -4,6 +4,7 @@
 package rcp3.study.viewers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.swt.graphics.RGB;
@@ -44,6 +45,17 @@ public class StudentFactory {
 			
 			students.add(student);
 		}
+		
+		Student child = new Student();
+		child.setName("Child");
+		child.setSex(Sex.FEMALE);
+		child.setCountry("Russia");
+		child.setHeight(0.34);
+		child.setMarried(true);
+		child.setFavoriteColor(new RGB(255, 0, 0));
+
+		students.get(0).setStudents(Arrays.asList(child));
+		child.setParent(students.get(0));
 		
 		return students;
 	}

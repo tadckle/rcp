@@ -36,7 +36,7 @@ public class TableViewerUsage1 implements ShellRunner {
 		new TableViewerUsage1().openShell();
 	}
 	
-	private static class StudentLabelProvider extends ColumnLabelProvider implements ITableLabelProvider {
+	public static class StudentLabelProvider extends ColumnLabelProvider implements ITableLabelProvider {
 		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
