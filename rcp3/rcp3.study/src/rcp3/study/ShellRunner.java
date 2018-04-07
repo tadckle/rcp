@@ -1,7 +1,9 @@
 package rcp3.study;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
@@ -10,17 +12,20 @@ import org.eclipse.swt.widgets.Shell;
  * 
  * @author alex
  */
-public class ShellRunner {
+public interface ShellRunner {
 	
-	public static void main(String[] args) {
-		new ShellRunner().openShell();
-	}
-	
-	private void openShell() {
+	/**
+	 * Open shell.
+	 */
+	default void openShell() {
 		Display display = Display.getDefault();
 		Shell shell = new Shell(display);
 		shell.setLayout(new FillLayout());
-		fillContent(shell);
+		
+		Composite parent = new Composite(shell, SWT.BORDER);
+		parent.setLayout(new FillLayout());
+		
+		fillContent(parent);
 		shell.setSize(getShellSize());
 		shell.open();
 		while (!shell.isDisposed()) {
@@ -37,17 +42,23 @@ public class ShellRunner {
 	 * 
 	 * @return a Point.
 	 */
-	protected Point getShellSize() {
-		return new Point(400, 300);
+	default Point getShellSize() {
+		return new Point(600, 400);
+	}
+	
+	default void sleep(long millis) {
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
-	 * Fill shell content.
+	 * Fill content.
 	 * 
-	 * @param shell the Shell.
+	 * @param parent the parent composite.
 	 */
-	protected void fillContent(Shell shell) {
-		// Do nothing.
-	}
+	abstract void fillContent(Composite parent);
 	
 }
