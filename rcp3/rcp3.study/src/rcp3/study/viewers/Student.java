@@ -1,6 +1,7 @@
 package rcp3.study.viewers;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.swt.graphics.RGB;
 
@@ -62,6 +63,10 @@ public class Student {
 	private boolean isMarried;
 	
 	private RGB favoriteColor;
+	
+	private Student parent;
+	
+	private List<Student> students;
 
 	/**
 	 * @return the name
@@ -145,6 +150,22 @@ public class Student {
 	 */
 	public void setFavoriteColor(RGB favoriteColor) {
 		this.favoriteColor = favoriteColor;
+	}
+
+	public Student getParent() {
+		return parent;
+	}
+
+	public void setParent(Student parent) {
+		this.parent = parent;
+	}
+
+	public List<Student> getStudents() {
+		return students;
+	}
+
+	public void setStudents(List<Student> students) {
+		this.students = students;
 	}
 
 }

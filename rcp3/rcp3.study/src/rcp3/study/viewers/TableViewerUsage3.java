@@ -9,8 +9,11 @@ import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerColumn;
+import org.eclipse.jface.viewers.ViewerColumn;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.Composite;
 
 import rcp3.study.viewers.Student.Sex;
 
@@ -21,29 +24,39 @@ import rcp3.study.viewers.Student.Sex;
  */
 public class TableViewerUsage3 extends TableViewerUsage1 {
 	
-	private static class StudentColumnEditingSupport extends EditingSupport {
+	public static class StudentColumnEditingSupport extends EditingSupport {
 		private final int index;
-		private final Table table;
+		private final Composite comp;
 		
-		public StudentColumnEditingSupport(TableViewerColumn viewerColumn) {
+		public StudentColumnEditingSupport(ViewerColumn viewerColumn) {
 			super(viewerColumn.getViewer());
 			
-			table = ((TableViewer) viewerColumn.getViewer()).getTable();
-			index = table.indexOf(viewerColumn.getColumn());
+			if (viewerColumn instanceof TableViewerColumn) {
+				TableViewer tableViewer = (TableViewer) viewerColumn.getViewer();
+				comp = tableViewer.getTable();
+				index = tableViewer.getTable().indexOf(((TableViewerColumn) viewerColumn).getColumn());
+			} else if (viewerColumn instanceof TreeViewerColumn) {
+				TreeViewer treeViewer = (TreeViewer) viewerColumn.getViewer();
+				comp = treeViewer.getTree();
+				index = treeViewer.getTree().indexOf(TreeViewerColumn.class.cast(viewerColumn).getColumn());
+			} else {
+				index = 0;
+				comp = (Composite) viewerColumn.getViewer().getControl();
+			}
 		}
 
 		@Override
 		protected CellEditor getCellEditor(Object element) {
 			switch(index) {
 			case 0:
-				return new TextCellEditor(table);
+				return new TextCellEditor(comp);
 			case 1:
-				return new ComboBoxCellEditor(table, 
+				return new ComboBoxCellEditor(comp, 
 						new String[]{Sex.MALE.getName(), Sex.FEMALE.getName()});
 			case 2:
-				return new TextCellEditor(table);
+				return new TextCellEditor(comp);
 			case 3:
-				TextCellEditor heightEditor = new TextCellEditor(table);
+				TextCellEditor heightEditor = new TextCellEditor(comp);
 				heightEditor.setValidator(new ICellEditorValidator() {
 					@Override
 					public String isValid(Object value) {
@@ -57,9 +70,9 @@ public class TableViewerUsage3 extends TableViewerUsage1 {
 				});
 				return heightEditor;
 			case 4:
-				return new CheckboxCellEditor(table);
+				return new CheckboxCellEditor(comp);
 			case 5:
-				return new ColorCellEditor(table);
+				return new ColorCellEditor(comp);
 			default: 
 				return null;
 			}
@@ -119,7 +132,7 @@ public class TableViewerUsage3 extends TableViewerUsage1 {
 				// Do nothing.
 			}			
 
-			((TableViewer) getViewer()).refresh(student);
+			(getViewer()).refresh(student);
 		}
 		
 	}
