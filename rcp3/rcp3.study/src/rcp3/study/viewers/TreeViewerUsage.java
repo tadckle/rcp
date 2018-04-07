@@ -2,26 +2,18 @@ package rcp3.study.viewers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 
 import rcp3.study.ShellRunner;
-import rcp3.study.viewers.TableViewerUsage1.StudentLabelProvider;
-import rcp3.study.viewers.TableViewerUsage3.StudentColumnEditingSupport;
 
 /**
  * Illustrate how to use TreeViewer.
@@ -29,8 +21,6 @@ import rcp3.study.viewers.TableViewerUsage3.StudentColumnEditingSupport;
  * @author Alex
  */
 public class TreeViewerUsage implements ShellRunner {
-	
-	private Map<RGB, Color> colorMap = new HashMap<>();
 	
 	public static void main(String[] args) {
 		new TreeViewerUsage().openShell();
@@ -75,24 +65,7 @@ public class TreeViewerUsage implements ShellRunner {
 		viewerColumns.add(colorViewerColumn);
 		
 		treeViewer.setLabelProvider(new StudentLabelProvider());
-		
-		colorViewerColumn.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return "Color";
-			}
-			
-			@Override
-			public Color getForeground(Object element) {
-				Student student = (Student) element;
-				RGB rgb = student.getFavoriteColor();
-				
-				if (!colorMap.containsKey(rgb)) {
-					colorMap.put(rgb, new Color(Display.getDefault(), rgb));
-				}
-				return colorMap.get(rgb);
-			}
-		});
+		colorViewerColumn.setLabelProvider(new ColorLabelProvider());
 		
 		viewerColumns.forEach(viewerColumn -> viewerColumn.setEditingSupport(new StudentColumnEditingSupport(viewerColumn)));
 		treeViewer.setInput(StudentFactory.create());
