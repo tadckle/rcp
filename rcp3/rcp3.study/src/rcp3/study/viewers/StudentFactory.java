@@ -4,10 +4,11 @@
 package rcp3.study.viewers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.swt.graphics.RGB;
+
+import com.google.common.collect.Lists;
 
 import rcp3.study.viewers.Student.Sex;
 
@@ -23,7 +24,7 @@ public class StudentFactory {
 	 * 
 	 * @return a list of Student.
 	 */
-	public static List<Student> create() {
+	public static List<Student> tableInput() {
 		String[] names = {"Bird", "Pig", "Dog", "Cat", "Parrot"};
 		Sex[] sexes = {Sex.MALE, Sex.FEMALE, Sex.FEMALE, Sex.MALE, Sex.FEMALE};
 		String[] countries = {"French", "Holland", "America", "Sweeden", "Germany"};
@@ -46,18 +47,29 @@ public class StudentFactory {
 			students.add(student);
 		}
 		
-		Student child = new Student();
-		child.setName("Child");
-		child.setSex(Sex.FEMALE);
-		child.setCountry("Russia");
-		child.setHeight(0.34);
-		child.setMarried(true);
-		child.setFavoriteColor(new RGB(255, 0, 0));
-
-		students.get(0).setStudents(Arrays.asList(child));
-		child.setParent(students.get(0));
-		
 		return students;
+	}
+	
+	/**
+	 * Create a tree input students. One parent node with five children nodes.
+	 * 
+	 * @return a list of Student.
+	 */
+	public static List<Student> treeInput() {
+		List<Student> students = tableInput();
+		
+		Student parent = new Student();
+		parent.setName("Parent");
+		parent.setSex(Sex.FEMALE);
+		parent.setCountry("Russia");
+		parent.setHeight(0.34);
+		parent.setMarried(true);
+		parent.setFavoriteColor(new RGB(255, 0, 0));
+
+		parent.setStudents(students);
+		students.forEach(st -> st.setParent(parent));
+		
+		return Lists.newArrayList(parent);
 	}
 
 }
