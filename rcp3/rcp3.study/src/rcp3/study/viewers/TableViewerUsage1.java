@@ -72,7 +72,7 @@ public class TableViewerUsage1 implements ShellRunner {
 		});
 		
 		addEditCapability(tableViewer);
-		tableViewer.setInput(StudentFactory.create());
+		tableViewer.setInput(StudentFactory.tableInput());
 		Arrays.stream(table.getColumns()).forEach(TableColumn::pack);
 	}
 	

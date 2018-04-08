@@ -68,7 +68,7 @@ public class TreeViewerUsage implements ShellRunner {
 		colorViewerColumn.setLabelProvider(new ColorLabelProvider());
 		
 		viewerColumns.forEach(viewerColumn -> viewerColumn.setEditingSupport(new StudentColumnEditingSupport(viewerColumn)));
-		treeViewer.setInput(StudentFactory.create());
+		treeViewer.setInput(StudentFactory.treeInput());
 		
 		Arrays.stream(tree.getColumns()).forEach(TreeColumn::pack);
 	}

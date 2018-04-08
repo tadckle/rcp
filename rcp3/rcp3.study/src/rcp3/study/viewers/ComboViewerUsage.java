@@ -52,7 +52,7 @@ public class ComboViewerUsage implements ShellRunner {
 			}
 		});
 
-		List<Student> students = StudentFactory.create();
+		List<Student> students = StudentFactory.tableInput();
 		comboViewer.setInput(students);
 		comboViewer.setSelection(new StructuredSelection(students.get(0)));
 

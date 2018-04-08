@@ -22,6 +22,7 @@ public class StudentTableContentProvider implements IStructuredContentProvider {
 		// Do something when input is changed.
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Object[] getElements(Object inputElement) {
 		if (inputElement instanceof Object[]) {
