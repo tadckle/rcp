@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
@@ -28,24 +26,6 @@ public class TreeViewerUsage implements ShellRunner {
 	
 	private List<TreeViewerColumn> viewerColumns = new ArrayList<>();
 	
-	private static class StudentTreeContentProvider extends ArrayContentProvider implements ITreeContentProvider {
-		@Override
-		public Object[] getChildren(Object parentElement) {
-			return ((Student) parentElement).getStudents().toArray();
-		}
-
-		@Override
-		public Object getParent(Object element) {
-			return ((Student) element).getParent();
-		}
-
-		@Override
-		public boolean hasChildren(Object element) {
-			List<Student> students = ((Student) element).getStudents();
-			return students != null && !students.isEmpty();
-		}
-	}
-
 	@Override
 	public void fillContent(Composite parent) {
 		TreeViewer treeViewer = new TreeViewer(parent, SWT.FULL_SELECTION);

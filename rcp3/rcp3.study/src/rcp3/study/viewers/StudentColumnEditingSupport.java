@@ -12,6 +12,9 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.ViewerColumn;
+import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
+import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
+import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 
@@ -29,14 +32,22 @@ public class StudentColumnEditingSupport extends EditingSupport {
 	public StudentColumnEditingSupport(ViewerColumn viewerColumn) {
 		super(viewerColumn.getViewer());
 		
-		if (viewerColumn instanceof TableViewerColumn) {
+		if (viewerColumn.getViewer() instanceof TableViewer) {
 			TableViewer tableViewer = (TableViewer) viewerColumn.getViewer();
 			comp = tableViewer.getTable();
 			index = tableViewer.getTable().indexOf(((TableViewerColumn) viewerColumn).getColumn());
-		} else if (viewerColumn instanceof TreeViewerColumn) {
+		} else if (viewerColumn.getViewer() instanceof TreeViewer) {
 			TreeViewer treeViewer = (TreeViewer) viewerColumn.getViewer();
 			comp = treeViewer.getTree();
 			index = treeViewer.getTree().indexOf(TreeViewerColumn.class.cast(viewerColumn).getColumn());
+		} else if (viewerColumn.getViewer() instanceof GridTableViewer) {
+			GridTableViewer tableViewer = (GridTableViewer) viewerColumn.getViewer();
+			comp = tableViewer.getGrid();
+			index = tableViewer.getGrid().indexOf(((GridViewerColumn) viewerColumn).getColumn());
+		} else if (viewerColumn.getViewer() instanceof GridTreeViewer) {
+			GridTreeViewer treeViewer = (GridTreeViewer) viewerColumn.getViewer();
+			comp = treeViewer.getGrid();
+			index = treeViewer.getGrid().indexOf(((GridViewerColumn) viewerColumn).getColumn());
 		} else {
 			index = 0;
 			comp = (Composite) viewerColumn.getViewer().getControl();
