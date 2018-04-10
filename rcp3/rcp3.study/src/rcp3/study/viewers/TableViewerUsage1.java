@@ -2,18 +2,12 @@ package rcp3.study.viewers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
@@ -25,8 +19,6 @@ import rcp3.study.ShellRunner;
  * @author Alex
  */
 public class TableViewerUsage1 implements ShellRunner {
-	
-	private Map<RGB, Color> colorMap = new HashMap<>();
 	
 	protected List<TableViewerColumn> viewerColumns = new ArrayList<>();
 	
@@ -52,24 +44,7 @@ public class TableViewerUsage1 implements ShellRunner {
 		viewerColumns.add(colorViewerColumn);
 		
 		tableViewer.setLabelProvider(new StudentLabelProvider());
-		
-		colorViewerColumn.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return "Color";
-			}
-			
-			@Override
-			public Color getForeground(Object element) {
-				Student student = (Student) element;
-				RGB rgb = student.getFavoriteColor();
-				
-				if (!colorMap.containsKey(rgb)) {
-					colorMap.put(rgb, new Color(Display.getDefault(), rgb));
-				}
-				return colorMap.get(rgb);
-			}
-		});
+		colorViewerColumn.setLabelProvider(new ColorLabelProvider());
 		
 		addEditCapability(tableViewer);
 		tableViewer.setInput(StudentFactory.tableInput());
