@@ -2,11 +2,8 @@ package rcp3.study.nebula;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
 import org.eclipse.nebula.jface.gridviewer.GridViewerColumn;
 import org.eclipse.nebula.widgets.grid.Grid;
@@ -14,13 +11,10 @@ import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.nebula.widgets.grid.GridColumnGroup;
 import org.eclipse.nebula.widgets.grid.GridItem;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 
 import rcp3.study.ShellRunner;
-import rcp3.study.viewers.Student;
+import rcp3.study.viewers.ColorLabelProvider;
 import rcp3.study.viewers.StudentColumnEditingSupport;
 import rcp3.study.viewers.StudentFactory;
 import rcp3.study.viewers.StudentLabelProvider;
@@ -32,8 +26,6 @@ import rcp3.study.viewers.StudentTableContentProvider;
  * @author Alex
  */
 public class GridTableViewerUsage implements ShellRunner {
-	
-	private Map<RGB, Color> colorMap = new HashMap<>();
 	
 	protected List<GridViewerColumn> viewerColumns = new ArrayList<>();
 	
@@ -71,24 +63,7 @@ public class GridTableViewerUsage implements ShellRunner {
 		viewerColumns.add(colorViewerColumn);
 		
 		tableViewer.setLabelProvider(new StudentLabelProvider());
-		
-		colorViewerColumn.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return "Color";
-			}
-			
-			@Override
-			public Color getForeground(Object element) {
-				Student student = (Student) element;
-				RGB rgb = student.getFavoriteColor();
-				
-				if (!colorMap.containsKey(rgb)) {
-					colorMap.put(rgb, new Color(Display.getDefault(), rgb));
-				}
-				return colorMap.get(rgb);
-			}
-		});
+		colorViewerColumn.setLabelProvider(new ColorLabelProvider());
 		
 		addEditCapability(tableViewer);
 		
