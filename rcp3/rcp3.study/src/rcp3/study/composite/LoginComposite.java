@@ -6,6 +6,7 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSourceAdapter;
@@ -29,7 +30,8 @@ import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import rcp3.study.resource.ImageResource;
+import rcp3.study.resource.SWTImgResource;
+
 
 /**
  * Use Form to decorate a login composite.
@@ -48,7 +50,7 @@ public class LoginComposite extends Composite {
 
 		loginForm = toolkit.createForm(this);
 		loginForm.setText("Login System");
-		loginForm.setImage(ImageResource.LOGIN.createImage());
+		loginForm.setImage(SWTImgResource.LOGIN);
 		loginForm.setSeparatorVisible(true);
 		toolkit.decorateFormHeading(loginForm);
 
@@ -95,7 +97,7 @@ public class LoginComposite extends Composite {
 				super.run();
 			}
 		};
-		addAction.setImageDescriptor(ImageResource.ADD);
+		addAction.setImageDescriptor(ImageDescriptor.createFromImage(SWTImgResource.ADD));
 		addAction.setText("Add");
 		addAction.setToolTipText("Add something");
 		menuManager.add(addAction);
@@ -108,7 +110,7 @@ public class LoginComposite extends Composite {
 				super.run();
 			}
 		};
-		likeAction.setImageDescriptor(ImageResource.HEART);
+		likeAction.setImageDescriptor(ImageDescriptor.createFromImage(SWTImgResource.HEART));
 		likeAction.setText("Like");
 		likeAction.setToolTipText("Add to favorite");
 		menuManager.add(likeAction);

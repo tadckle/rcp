@@ -1,0 +1,40 @@
+<form>
+
+<p>
+Here is some plain text for the text to render. This text is at 
+<a href="http://www.eclipse.org" nowrap="true">Eclipse Official</a> web site.
+</p>
+
+<p>
+<span color="header" font="header">
+This text is in header font and color.
+</span>
+</p>
+
+<p vspace='false'>
+vspace is false.<br/>
+This line will contain some <b>bold</b> and some 
+<span font="code">source</span> text.
+We can also add <img href="image"/> an image.
+</p>
+
+<li>A default (bulleted) list item.</li>
+<li vspace="true">vaspace is false. There's no effect in my case.</li>
+<li style="text" value="1.">A list item with text.</li>
+<li style="text" value="2.">Another list item with text.</li>
+<li style="image" value="image">List item with an image bullet</li>
+<li style ="text" bindent="20" indent="40" value="3.">
+A list item with text.
+</li>
+<li style="text" bindent="20" indent="40" value="4.">
+A list item with text.
+</li>
+
+<p>
+        leading blanks;           more white   \n\n   new lines    <br/>
+   more   <b>     bb    </b>   white  .
+</p>
+
+<control href="loginComp" fill="false" />
+
+</form>
