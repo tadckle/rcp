@@ -59,8 +59,7 @@ public class FormTextUsage implements ShellRunner {
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
 		}
-		String text = strBuilder.toString();
-		return text;
+		return strBuilder.toString();
 	}
 	
 }
