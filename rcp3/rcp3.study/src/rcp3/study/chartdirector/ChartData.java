@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.common.collect.Lists;
+
 
 /**
  * Base chart data.
