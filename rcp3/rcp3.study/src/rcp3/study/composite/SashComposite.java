@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Listener;
 
 import rcp3.study.composite.DirectionLabel.Rotation;
 
+
 /**
  * This composite has a sash bar which can hide or show a "hide composite".
  * 
@@ -153,6 +154,7 @@ public class SashComposite extends Composite {
 		middleComp.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		
 		sashTxtLbl = new DirectionLabel(middleComp, "", SWT.NONE);
+		sashTxtLbl.setxMargin(0);
 		if (hideStyle.isHorizontal()) {
 			sashTxtLbl.setRotation(Rotation.ANGLE_90);
 		}

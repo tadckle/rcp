@@ -1,140 +1,123 @@
 package rcp3.study.composite;
 
-import org.eclipse.draw2d.Figure;
-import org.eclipse.draw2d.FigureCanvas;
-import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.TextUtilities;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.graphics.Transform;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Display;
 
 /**
- * This label can be directly put in any SWT control.
- * The second parameter specifies text direction. Available directions are:
- * DirectionLabel.LEFT_TO_RIGHT , DirectionLabel.TOP_TO_BOTTOW and DirectionLabel.TOP_TO_BOTTOW.
+ * This label can be directly put in a SWT composite.
+ * Field rotation specifies text direction. Available directions are:
+ * Rotation.ANGLE_0, Rotation.ANGLE_90, Rotation.ANGLE_180, Rotation.ANGLE_270.
  * 
  * @author Alex
  */
-public class DirectionLabel extends Composite {
+public class DirectionLabel extends Canvas {
+	
 	/*
 	 * Text rotation.
 	 */
 	public enum Rotation {
-		ANGLE_0, ANGLE_90, ANGLE_180, ANGLE_270;
+		ANGLE_0(0f), ANGLE_90(90f), ANGLE_180(180f), ANGLE_270(270f);
+		
+		private float angle;
+		private Rotation(float theAngle) {
+			this.angle = theAngle;
+		}
 	}
 	
 	private String text = "";
 	
 	private Rotation rotation = Rotation.ANGLE_0;
 	
-	private FigureCanvas canvas;
+	private int xMargin = 2;
 
-	private Figure figure;
+	private PaintListener paintListener = evt -> {
+		if (text == null || text.isEmpty()) {
+			return;
+		}
+		
+		Transform transform = new Transform(Display.getDefault());
+		transform.rotate(rotation.angle);
+		evt.gc.setTransform(transform);
+		
+		Dimension textExtents = TextUtilities.INSTANCE.getTextExtents(text, this.getFont());
+		switch (rotation) {
+			case ANGLE_90:
+				evt.gc.drawText(text, xMargin, -textExtents.height);
+				break;
+			case ANGLE_180:
+				evt.gc.drawText(text, -textExtents.width - xMargin, -textExtents.height);
+				break;
+			case ANGLE_270:
+				evt.gc.drawText(text, -textExtents.width - xMargin, 0);
+				break;
+			default:
+				evt.gc.drawText(text, xMargin, 0);
+				break;
+		}
+		transform.dispose();
+	};
 	
 	/**
-	 * Construct an DirectionLabel.
+	 * Construct an label instance.
 	 * 
 	 * @param parent the parent composite.
-	 * @param atext the label text.
 	 * @param style the appearance style.
 	 */
-	public DirectionLabel(Composite parent, String atext, int style) {
+	public DirectionLabel(Composite parent, String text, int style) {
 		super(parent, style);
-		this.setText(atext);
-		this.setLayout(new FillLayout());
-		
-		canvas = new FigureCanvas(this);
-		figure = new Figure() {
-			@Override
-			public void paint(Graphics graphics) {
-				super.paint(graphics);
-				if (text == null || text.isEmpty()) {
-					return;
-				}
-				
-				Dimension textExtents = TextUtilities.INSTANCE.getTextExtents(text, canvas.getFont());
-				switch (rotation) {
-					case ANGLE_90:
-						graphics.rotate(90);
-						graphics.drawText(text, 0, -textExtents.height);
-						break;
-					case ANGLE_180:
-						graphics.rotate(180);
-						graphics.drawText(text, -textExtents.width, -textExtents.height);
-						break;
-					case ANGLE_270:
-						graphics.rotate(270);
-						graphics.drawText(text, -textExtents.width, 0);
-						break;
-					default:
-						graphics.drawText(text, 0, 0);
-						break;
-						
-				}
-				graphics.rotate(0);
-			}
-		};
-		
-		canvas.setContents(figure);
-	}
-	
-	@Override
-	public Point computeSize (int wHint, int hHint, boolean changed) {
-		Dimension textExtents = TextUtilities.INSTANCE.getTextExtents(text, canvas.getFont());
-		if (Rotation.ANGLE_90.equals(rotation) || Rotation.ANGLE_270.equals(rotation)) {
-			return super.computeSize(textExtents.height, textExtents.width, false);
-		} else {
-			return super.computeSize(textExtents.width, textExtents.height, true);
-		}
+		this.text = text;
+		this.addPaintListener(paintListener);
 	}
 	
 	/**
-	 * Set text rotation.
-	 * 
-	 * @param rotation the rotation to set.
+	 * Set the text.
+	 *
+	 * @param text the text to set
+	 */
+	public void setText(String text) {
+		if (text != null) {
+			this.text = text;
+		}
+	}
+
+	/**
+	 * Set the rotation.
+	 *
+	 * @param rotation the rotation to set
 	 */
 	public void setRotation(Rotation rotation) {
 		this.rotation = rotation;
 	}
 
 	@Override
-	public void setBackground(Color color) {
-		canvas.setBackground(color);
-	}
+	public Point computeSize (int wHint, int hHint, boolean changed) {
+		Dimension textExtents = TextUtilities.INSTANCE.getTextExtents(text, this.getFont());
 
-	@Override
-	public void setFont(Font font) {
-		canvas.setFont(font);
-	}
-
-	@Override
-	public void setForeground(Color color) {
-		canvas.setForeground(color);
+		Point size;
+		if (Rotation.ANGLE_90.equals(rotation) || Rotation.ANGLE_270.equals(rotation)) {
+			size = super.computeSize(textExtents.height, textExtents.width, false);
+			size.y += xMargin * 2;
+		} else {
+			size = super.computeSize(textExtents.width, textExtents.height, true);
+			size.x += xMargin * 2;
+		}
+		
+		return size;
 	}
 
 	/**
-	 * Set label text.
-	 * 
-	 * @param text the text to set.
+	 * Set the xMargin.
+	 *
+	 * @param xMargin the xMargin to set
 	 */
-	public void setText(String text) {
-		if (text != null) {
-			this.text = text;
-			if (figure != null) {
-				figure.repaint();
-			}
-		}
-	}
-	
-	@Override
-	public void addListener(int eventType, Listener listener) {
-		if (canvas != null) {
-			canvas.addListener(eventType, listener);
-		}
+	public void setxMargin(int xMargin) {
+		this.xMargin = xMargin;
 	}
 	
 }
