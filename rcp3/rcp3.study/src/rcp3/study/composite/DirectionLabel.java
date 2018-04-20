@@ -2,6 +2,7 @@ package rcp3.study.composite;
 
 import org.eclipse.draw2d.TextUtilities;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Transform;
@@ -36,31 +37,36 @@ public class DirectionLabel extends Canvas {
 	
 	private int xMargin = 2;
 
-	private PaintListener paintListener = evt -> {
-		if (text == null || text.isEmpty()) {
-			return;
+	private PaintListener paintListener = new PaintListener(){
+		@Override
+		public void paintControl(PaintEvent evt) {
+			if (text == null || text.isEmpty()) {
+				return;
+			}
+			
+			Transform transform = new Transform(Display.getDefault());
+			transform.rotate(rotation.angle);
+			evt.gc.setTransform(transform);
+			
+			Dimension textExtents = TextUtilities.INSTANCE.getTextExtents(text, evt.gc.getFont());
+			switch (rotation) {
+				case ANGLE_90:
+					evt.gc.drawText(text, xMargin, -textExtents.height);
+					break;
+				case ANGLE_180:
+					evt.gc.drawText(text, -textExtents.width - xMargin, -textExtents.height);
+					break;
+				case ANGLE_270:
+					evt.gc.drawText(text, -textExtents.width - xMargin, 0);
+					break;
+				default:
+					evt.gc.drawText(text, xMargin, 0);
+					break;
+			}
+			
+			transform.dispose();
+			DirectionLabel.this.removePaintListener(this);
 		}
-		
-		Transform transform = new Transform(Display.getDefault());
-		transform.rotate(rotation.angle);
-		evt.gc.setTransform(transform);
-		
-		Dimension textExtents = TextUtilities.INSTANCE.getTextExtents(text, this.getFont());
-		switch (rotation) {
-			case ANGLE_90:
-				evt.gc.drawText(text, xMargin, -textExtents.height);
-				break;
-			case ANGLE_180:
-				evt.gc.drawText(text, -textExtents.width - xMargin, -textExtents.height);
-				break;
-			case ANGLE_270:
-				evt.gc.drawText(text, -textExtents.width - xMargin, 0);
-				break;
-			default:
-				evt.gc.drawText(text, xMargin, 0);
-				break;
-		}
-		transform.dispose();
 	};
 	
 	/**
@@ -71,19 +77,23 @@ public class DirectionLabel extends Canvas {
 	 */
 	public DirectionLabel(Composite parent, String text, int style) {
 		super(parent, style);
-		this.text = text;
-		this.addPaintListener(paintListener);
+		updateText(text);
+	}
+	
+	private void updateText(String aText) {
+		if (aText != null) {
+			this.text = aText;
+			this.addPaintListener(paintListener);
+		}
 	}
 	
 	/**
 	 * Set the text.
 	 *
-	 * @param text the text to set
+	 * @param aText the text to set
 	 */
-	public void setText(String text) {
-		if (text != null) {
-			this.text = text;
-		}
+	public void setText(String aText) {
+		updateText(aText);
 	}
 
 	/**
