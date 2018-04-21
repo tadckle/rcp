@@ -16,32 +16,31 @@ import rcp3.study.ShellRunner;
  * @author Alex
  */
 public class ColumnLayoutUsage implements ShellRunner {
-	
-	public static void main(String[] args) {
-		new ColumnLayoutUsage().openShell();
-	}
-	
-	private static final FormToolkit toolkit = new FormToolkit(Display.getDefault());
 
-	@Override
-	public void fillContent(Composite parent) {
-		parent.setLayout(new FillLayout());
+  public static void main(String[] args) {
+    new ColumnLayoutUsage().openShell();
+  }
 
-		ScrolledForm sf = toolkit.createScrolledForm(parent);
+  private static final FormToolkit toolkit = new FormToolkit(Display.getDefault());
 
-		//	RowLayout rowLayout = new RowLayout();
-		//	rowLayout.wrap = true;  //Content are show in one row.
-		//	sf.getBody().setLayout(rowLayout);
+  @Override
+  public void fillContent(Composite parent) {
+    parent.setLayout(new FillLayout());
 
-		ColumnLayout columnLayout = new ColumnLayout();
-		columnLayout.minNumColumns = 3;
-		columnLayout.maxNumColumns = 7;
-		sf.getBody().setLayout(columnLayout);
+    ScrolledForm sf = toolkit.createScrolledForm(parent);
 
-		for (int i = 0; i < 30; ++i) {
-			toolkit.createButton(sf.getBody(), "Button " + i, SWT.FLAT);
-		}
-	}
+    // RowLayout rowLayout = new RowLayout();
+    // rowLayout.wrap = true; //Content are show in one row.
+    // sf.getBody().setLayout(rowLayout);
 
-	
+    ColumnLayout columnLayout = new ColumnLayout();
+    columnLayout.minNumColumns = 3;
+    columnLayout.maxNumColumns = 7;
+    sf.getBody().setLayout(columnLayout);
+
+    for (int i = 0; i < 30; ++i) {
+      toolkit.createButton(sf.getBody(), "Button " + i, SWT.FLAT);
+    }
+  }
+
 }

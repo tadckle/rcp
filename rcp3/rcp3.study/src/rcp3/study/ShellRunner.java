@@ -13,52 +13,53 @@ import org.eclipse.swt.widgets.Shell;
  * @author alex
  */
 public interface ShellRunner {
-	
-	/**
-	 * Open shell.
-	 */
-	default void openShell() {
-		Display display = Display.getDefault();
-		Shell shell = new Shell(display);
-		shell.setLayout(new FillLayout());
-		
-		Composite parent = new Composite(shell, SWT.BORDER);
-		parent.setLayout(new FillLayout());
-		
-		fillContent(parent);
-		shell.setSize(getShellSize());
-		shell.open();
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
-		shell.dispose();
-		display.dispose();
-	}
-	
-	/**
-	 * Get shell size.
-	 * 
-	 * @return a Point.
-	 */
-	default Point getShellSize() {
-		return new Point(600, 400);
-	}
-	
-	default void sleep(long millis) {
-		try {
-			Thread.sleep(millis);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Fill content.
-	 * 
-	 * @param parent the parent composite.
-	 */
-	abstract void fillContent(Composite parent);
-	
+
+  /**
+   * Open shell.
+   */
+  default void openShell() {
+    Display display = Display.getDefault();
+    Shell shell = new Shell(display);
+    shell.setLayout(new FillLayout());
+
+    Composite parent = new Composite(shell, SWT.BORDER);
+    parent.setLayout(new FillLayout());
+
+    fillContent(parent);
+    shell.setSize(getShellSize());
+    shell.open();
+    while (!shell.isDisposed()) {
+      if (!display.readAndDispatch()) {
+        display.sleep();
+      }
+    }
+    shell.dispose();
+    display.dispose();
+  }
+
+  /**
+   * Get shell size.
+   * 
+   * @return a Point.
+   */
+  default Point getShellSize() {
+    return new Point(600, 400);
+  }
+
+  default void sleep(long millis) {
+    try {
+      Thread.sleep(millis);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Fill content.
+   * 
+   * @param parent
+   *          the parent composite.
+   */
+  abstract void fillContent(Composite parent);
+
 }

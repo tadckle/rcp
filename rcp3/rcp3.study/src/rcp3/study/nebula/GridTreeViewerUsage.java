@@ -24,49 +24,50 @@ import rcp3.study.viewers.StudentTreeContentProvider;
  * @author Alex
  */
 public class GridTreeViewerUsage implements ShellRunner {
-	
-	public static void main(String[] args) {
-		new GridTreeViewerUsage().openShell();
-	}
-	
-	private List<GridViewerColumn> viewerColumns = new ArrayList<>();
 
-	@Override
-	public void fillContent(Composite parent) {
-		GridTreeViewer treeViewer = new GridTreeViewer(parent, SWT.FULL_SELECTION);
-		treeViewer.setContentProvider(new StudentTreeContentProvider());
-		treeViewer.setAutoExpandLevel(2);
-		
-		Grid grid = treeViewer.getGrid();
-		grid.setHeaderVisible(true);
-		grid.setLinesVisible(true);
-		
-		GridViewerColumn nameViewerColumn = createViewerColumn(treeViewer, "Name");
-		nameViewerColumn.getColumn().setTree(true);
-		
-		viewerColumns.add(nameViewerColumn);
-		viewerColumns.add(createViewerColumn(treeViewer, "Sex"));
-		viewerColumns.add(createViewerColumn(treeViewer, "Country"));
-		viewerColumns.add(createViewerColumn(treeViewer, "Height"));
-		viewerColumns.add(createViewerColumn(treeViewer, "Married"));
-		GridViewerColumn colorViewerColumn = createViewerColumn(treeViewer, "Color");
-		viewerColumns.add(colorViewerColumn);
-		
-		treeViewer.setLabelProvider(new StudentLabelProvider());
-		colorViewerColumn.setLabelProvider(new ColorLabelProvider());
-		
-		viewerColumns.forEach(viewerColumn -> viewerColumn.setEditingSupport(new StudentColumnEditingSupport(viewerColumn)));
-		treeViewer.setInput(StudentFactory.treeInput());
-		
-		Arrays.stream(grid.getColumns()).forEach(GridColumn::pack);
-	}
-	
-	private GridViewerColumn createViewerColumn(GridTreeViewer treeViewer, String text) {
-		GridViewerColumn viewerColumn = new GridViewerColumn(treeViewer, SWT.NONE);
-		GridColumn column = viewerColumn.getColumn();
-		column.setText(text);
-		
-		return viewerColumn;
-	}
+  public static void main(String[] args) {
+    new GridTreeViewerUsage().openShell();
+  }
+
+  private List<GridViewerColumn> viewerColumns = new ArrayList<>();
+
+  @Override
+  public void fillContent(Composite parent) {
+    GridTreeViewer treeViewer = new GridTreeViewer(parent, SWT.FULL_SELECTION);
+    treeViewer.setContentProvider(new StudentTreeContentProvider());
+    treeViewer.setAutoExpandLevel(2);
+
+    Grid grid = treeViewer.getGrid();
+    grid.setHeaderVisible(true);
+    grid.setLinesVisible(true);
+
+    GridViewerColumn nameViewerColumn = createViewerColumn(treeViewer, "Name");
+    nameViewerColumn.getColumn().setTree(true);
+
+    viewerColumns.add(nameViewerColumn);
+    viewerColumns.add(createViewerColumn(treeViewer, "Sex"));
+    viewerColumns.add(createViewerColumn(treeViewer, "Country"));
+    viewerColumns.add(createViewerColumn(treeViewer, "Height"));
+    viewerColumns.add(createViewerColumn(treeViewer, "Married"));
+    GridViewerColumn colorViewerColumn = createViewerColumn(treeViewer, "Color");
+    viewerColumns.add(colorViewerColumn);
+
+    treeViewer.setLabelProvider(new StudentLabelProvider());
+    colorViewerColumn.setLabelProvider(new ColorLabelProvider());
+
+    viewerColumns
+        .forEach(viewerColumn -> viewerColumn.setEditingSupport(new StudentColumnEditingSupport(viewerColumn)));
+    treeViewer.setInput(StudentFactory.treeInput());
+
+    Arrays.stream(grid.getColumns()).forEach(GridColumn::pack);
+  }
+
+  private GridViewerColumn createViewerColumn(GridTreeViewer treeViewer, String text) {
+    GridViewerColumn viewerColumn = new GridViewerColumn(treeViewer, SWT.NONE);
+    GridColumn column = viewerColumn.getColumn();
+    column.setText(text);
+
+    return viewerColumn;
+  }
 
 }

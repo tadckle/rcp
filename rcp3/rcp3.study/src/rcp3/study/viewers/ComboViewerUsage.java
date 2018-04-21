@@ -29,75 +29,75 @@ import rcp3.study.ShellRunner;
  * @author Alex
  */
 public class ComboViewerUsage implements ShellRunner {
-	
-	public static void main(String[] args) {
-		new ComboViewerUsage().openShell();
-	}
 
-	@Override
-	public void fillContent(Composite parent) {
-		ComboViewer comboViewer = new ComboViewer(parent, SWT.NONE);
-		comboViewer.setContentProvider(new ArrayContentProvider());
+  public static void main(String[] args) {
+    new ComboViewerUsage().openShell();
+  }
 
-		comboViewer.setLabelProvider(new LabelProvider() {
-			@Override
-			public Image getImage(Object element) {
-				return Display.getDefault().getSystemImage(SWT.ICON_INFORMATION);
-			}
+  @Override
+  public void fillContent(Composite parent) {
+    ComboViewer comboViewer = new ComboViewer(parent, SWT.NONE);
+    comboViewer.setContentProvider(new ArrayContentProvider());
 
-			@Override
-			public String getText(Object element) {
-				Student st = (Student) element;
-				return String.format("%s - %s", st.getName(), st.getCountry());
-			}
-		});
+    comboViewer.setLabelProvider(new LabelProvider() {
+      @Override
+      public Image getImage(Object element) {
+        return Display.getDefault().getSystemImage(SWT.ICON_INFORMATION);
+      }
 
-		List<Student> students = StudentFactory.tableInput();
-		comboViewer.setInput(students);
-		comboViewer.setSelection(new StructuredSelection(students.get(0)));
+      @Override
+      public String getText(Object element) {
+        Student st = (Student) element;
+        return String.format("%s - %s", st.getName(), st.getCountry());
+      }
+    });
 
-		comboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				StructuredSelection selection = (StructuredSelection) event.getSelection();
-				Object firstElement = selection.getFirstElement();
-				if (firstElement instanceof Student) {
-					// Do something.
-				}
-			}
-		});
-		
-		comboViewer.getCombo().addModifyListener(new ModifyListener(){
-			@Override
-			public void modifyText(ModifyEvent e) {
-				System.out.println("Input changed.");
-			}
-		});
+    List<Student> students = StudentFactory.tableInput();
+    comboViewer.setInput(students);
+    comboViewer.setSelection(new StructuredSelection(students.get(0)));
 
-		comboViewer.getCombo().addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (SWT.CR == e.keyCode) {
-					System.out.println("Entery key is pressed.");
-				}
-			}
-		});
+    comboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+      @Override
+      public void selectionChanged(SelectionChangedEvent event) {
+        StructuredSelection selection = (StructuredSelection) event.getSelection();
+        Object firstElement = selection.getFirstElement();
+        if (firstElement instanceof Student) {
+          // Do something.
+        }
+      }
+    });
 
-		comboViewer.getCombo().addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				System.out.println("Focus is lost.");
-			}
-		});
+    comboViewer.getCombo().addModifyListener(new ModifyListener() {
+      @Override
+      public void modifyText(ModifyEvent e) {
+        System.out.println("Input changed.");
+      }
+    });
 
-		comboViewer.getCombo().addVerifyListener(new VerifyListener() {
-			@Override
-			public void verifyText(VerifyEvent e) {
-				// Prevent from inputing letter "s".
-				e.doit = !"s".equals(e.text);
-			}
-		});
-		
-	}
+    comboViewer.getCombo().addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        if (SWT.CR == e.keyCode) {
+          System.out.println("Entery key is pressed.");
+        }
+      }
+    });
+
+    comboViewer.getCombo().addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusLost(FocusEvent e) {
+        System.out.println("Focus is lost.");
+      }
+    });
+
+    comboViewer.getCombo().addVerifyListener(new VerifyListener() {
+      @Override
+      public void verifyText(VerifyEvent e) {
+        // Prevent from inputing letter "s".
+        e.doit = !"s".equals(e.text);
+      }
+    });
+
+  }
 
 }

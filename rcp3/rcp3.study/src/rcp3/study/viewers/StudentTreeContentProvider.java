@@ -11,19 +11,19 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
  * @author Alex
  */
 public class StudentTreeContentProvider extends ArrayContentProvider implements ITreeContentProvider {
-	@Override
-	public Object[] getChildren(Object parentElement) {
-		return ((Student) parentElement).getStudents().toArray();
-	}
+  @Override
+  public Object[] getChildren(Object parentElement) {
+    return ((Student) parentElement).getStudents().toArray();
+  }
 
-	@Override
-	public Object getParent(Object element) {
-		return ((Student) element).getParent();
-	}
+  @Override
+  public Object getParent(Object element) {
+    return ((Student) element).getParent();
+  }
 
-	@Override
-	public boolean hasChildren(Object element) {
-		List<Student> students = ((Student) element).getStudents();
-		return students != null && !students.isEmpty();
-	}
+  @Override
+  public boolean hasChildren(Object element) {
+    List<Student> students = ((Student) element).getStudents();
+    return students != null && !students.isEmpty();
+  }
 }
