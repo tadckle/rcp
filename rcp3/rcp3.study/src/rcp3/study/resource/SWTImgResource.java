@@ -1,6 +1,9 @@
 package rcp3.study.resource;
 
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -30,14 +33,26 @@ public class SWTImgResource {
 	
 	// name is the name of image in icons folder.
 	private static Image createImg(String name) {
+		return ImageDescriptor.createFromURL(getImgURL(name)).createImage();
+	}
+	
+	private static URL getImgURL(String name) {
+		URL url = null;
+		
 		try {
-			return ImageDescriptor.createFromURL(
-					Paths.get(System.getProperty("user.dir"), "icons", name).toUri().toURL())
-					.createImage();
+			Path path = Paths.get(System.getProperty("user.dir"), "icons", name);
+			if (Files.exists(path)) {
+				// Construct URL when start as java application.
+				url = path.toUri().toURL();
+			} else {
+				// Construct URL when start as Plug-in/RCP application.
+				url = new URL(String.format("platform:/plugin/%s/icons/%s", "rcp3.study", name));
+			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
-			return null;
 		}
+		
+		return url;
 	}
 	
 }
