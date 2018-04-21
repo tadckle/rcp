@@ -14,22 +14,22 @@ import org.eclipse.swt.widgets.Display;
  * @author Alex
  */
 public class ColorLabelProvider extends ColumnLabelProvider {
-	
-	private Map<RGB, Color> colorMap = new HashMap<>();
-	
-	@Override
-	public String getText(Object element) {
-		return "Color";
-	}
 
-	@Override
-	public Color getForeground(Object element) {
-		Student student = (Student) element;
-		RGB rgb = student.getFavoriteColor();
-		
-		if (!colorMap.containsKey(rgb)) {
-			colorMap.put(rgb, new Color(Display.getDefault(), rgb));
-		}
-		return colorMap.get(rgb);
-	}
+  private Map<RGB, Color> colorMap = new HashMap<>();
+
+  @Override
+  public String getText(Object element) {
+    return "Color";
+  }
+
+  @Override
+  public Color getForeground(Object element) {
+    Student student = (Student) element;
+    RGB rgb = student.getFavoriteColor();
+
+    if (!colorMap.containsKey(rgb)) {
+      colorMap.put(rgb, new Color(Display.getDefault(), rgb));
+    }
+    return colorMap.get(rgb);
+  }
 }

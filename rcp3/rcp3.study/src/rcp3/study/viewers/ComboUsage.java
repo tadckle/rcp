@@ -12,18 +12,18 @@ import rcp3.study.ShellRunner;
  * @author Alex
  */
 public class ComboUsage implements ShellRunner {
-	
-	public static void main(String[] args) {
-		new ComboUsage().openShell();
-	}
 
-	@Override
-	public void fillContent(Composite parent) {
-		Combo combo = new Combo(parent, SWT.NONE);
-		combo.setItems(new String[] {"Item1", "Item2", "Item3"});
-		combo.select(0);
-		
-		System.out.println("Selected index: " + combo.getSelectionIndex());
-	}
+  public static void main(String[] args) {
+    new ComboUsage().openShell();
+  }
+
+  @Override
+  public void fillContent(Composite parent) {
+    Combo combo = new Combo(parent, SWT.NONE);
+    combo.setItems(new String[] { "Item1", "Item2", "Item3" });
+    combo.select(0);
+
+    System.out.println("Selected index: " + combo.getSelectionIndex());
+  }
 
 }

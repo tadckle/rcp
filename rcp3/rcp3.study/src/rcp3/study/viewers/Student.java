@@ -11,161 +11,167 @@ import org.eclipse.swt.graphics.RGB;
  * @author Alex
  */
 public class Student {
-	/**
-	 * Sex enum.
-	 * 
-	 * @author Alex
-	 */
-	public enum Sex {
-		MALE("male"), FEMALE("female"), LALA("lala");
-		
-		private final String name;
-		
-		private Sex(String name) {
-			this.name = name;
-		}
+  /**
+   * Sex enum.
+   * 
+   * @author Alex
+   */
+  public enum Sex {
+    MALE("male"), FEMALE("female"), LALA("lala");
 
-		public String getName() {
-			return name;
-		}
-		
-		/**
-		 * Convert a name to enum.
-		 * 
-		 * @param name sex name.
-		 * @return sex enum.
-		 */
-		public static Sex fromName(String name) {
-			return Arrays.stream(Sex.values()).filter(sex -> sex.name.equals(name)).findAny()
-					.orElse(Sex.LALA);
-		}
-		
-		/**
-		 * Find a Sex whose ordinal is same as the input.
-		 * 
-		 * @param ordinal sex ordinal.
-		 * @return sex.
-		 */
-		public static Sex fromOrdinal(int ordinal) {
-			return Arrays.stream(Sex.values())
-					.filter(sex -> sex.ordinal() == ordinal).findAny().orElse(Sex.LALA);
-		}
-	}
-	
-	private String name;
-	
-	private Sex sex;
-	
-	private String country;
-	
-	private double height;
-	
-	private boolean isMarried;
-	
-	private RGB favoriteColor;
-	
-	private Student parent;
-	
-	private List<Student> students;
+    private final String name;
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
+    private Sex(String name) {
+      this.name = name;
+    }
 
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+      return name;
+    }
 
-	/**
-	 * @return the sex
-	 */
-	public Sex getSex() {
-		return sex;
-	}
+    /**
+     * Convert a name to enum.
+     * 
+     * @param name
+     *          sex name.
+     * @return sex enum.
+     */
+    public static Sex fromName(String name) {
+      return Arrays.stream(Sex.values()).filter(sex -> sex.name.equals(name)).findAny().orElse(Sex.LALA);
+    }
 
-	/**
-	 * @param sex the sex to set
-	 */
-	public void setSex(Sex sex) {
-		this.sex = sex;
-	}
+    /**
+     * Find a Sex whose ordinal is same as the input.
+     * 
+     * @param ordinal
+     *          sex ordinal.
+     * @return sex.
+     */
+    public static Sex fromOrdinal(int ordinal) {
+      return Arrays.stream(Sex.values()).filter(sex -> sex.ordinal() == ordinal).findAny().orElse(Sex.LALA);
+    }
+  }
 
-	/**
-	 * @return the country
-	 */
-	public String getCountry() {
-		return country;
-	}
+  private String name;
 
-	/**
-	 * @param country the country to set
-	 */
-	public void setCountry(String country) {
-		this.country = country;
-	}
+  private Sex sex;
 
-	/**
-	 * @return the height
-	 */
-	public double getHeight() {
-		return height;
-	}
+  private String country;
 
-	/**
-	 * @param height the height to set
-	 */
-	public void setHeight(double height) {
-		this.height = height;
-	}
+  private double height;
 
-	/**
-	 * @return the isMarried
-	 */
-	public boolean isMarried() {
-		return isMarried;
-	}
+  private boolean isMarried;
 
-	/**
-	 * @param isMarried the isMarried to set
-	 */
-	public void setMarried(boolean isMarried) {
-		this.isMarried = isMarried;
-	}
+  private RGB favoriteColor;
 
-	/**
-	 * @return the favoriteColor
-	 */
-	public RGB getFavoriteColor() {
-		return favoriteColor;
-	}
+  private Student parent;
 
-	/**
-	 * @param favoriteColor the favoriteColor to set
-	 */
-	public void setFavoriteColor(RGB favoriteColor) {
-		this.favoriteColor = favoriteColor;
-	}
+  private List<Student> students;
 
-	public Student getParent() {
-		return parent;
-	}
+  /**
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
 
-	public void setParent(Student parent) {
-		this.parent = parent;
-	}
+  /**
+   * @param name
+   *          the name to set
+   */
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public List<Student> getStudents() {
-		return students;
-	}
+  /**
+   * @return the sex
+   */
+  public Sex getSex() {
+    return sex;
+  }
 
-	public void setStudents(List<Student> students) {
-		this.students = students;
-	}
+  /**
+   * @param sex
+   *          the sex to set
+   */
+  public void setSex(Sex sex) {
+    this.sex = sex;
+  }
+
+  /**
+   * @return the country
+   */
+  public String getCountry() {
+    return country;
+  }
+
+  /**
+   * @param country
+   *          the country to set
+   */
+  public void setCountry(String country) {
+    this.country = country;
+  }
+
+  /**
+   * @return the height
+   */
+  public double getHeight() {
+    return height;
+  }
+
+  /**
+   * @param height
+   *          the height to set
+   */
+  public void setHeight(double height) {
+    this.height = height;
+  }
+
+  /**
+   * @return the isMarried
+   */
+  public boolean isMarried() {
+    return isMarried;
+  }
+
+  /**
+   * @param isMarried
+   *          the isMarried to set
+   */
+  public void setMarried(boolean isMarried) {
+    this.isMarried = isMarried;
+  }
+
+  /**
+   * @return the favoriteColor
+   */
+  public RGB getFavoriteColor() {
+    return favoriteColor;
+  }
+
+  /**
+   * @param favoriteColor
+   *          the favoriteColor to set
+   */
+  public void setFavoriteColor(RGB favoriteColor) {
+    this.favoriteColor = favoriteColor;
+  }
+
+  public Student getParent() {
+    return parent;
+  }
+
+  public void setParent(Student parent) {
+    this.parent = parent;
+  }
+
+  public List<Student> getStudents() {
+    return students;
+  }
+
+  public void setStudents(List<Student> students) {
+    this.students = students;
+  }
 
 }

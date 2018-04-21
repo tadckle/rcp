@@ -7,19 +7,18 @@ import org.eclipse.ui.part.ViewPart;
 import rcp3.study.composite.LoginComposite;
 
 public class View extends ViewPart {
-	public static final String ID = "rcp3.study.view";
+  public static final String ID = "rcp3.study.view";
 
-	/**
-	 * This is a callback that will allow us to create the viewer and initialize
-	 * it.
-	 */
-	public void createPartControl(Composite parent) {
-		new LoginComposite(parent, SWT.NONE);
-	}
+  /**
+   * This is a callback that will allow us to create the viewer and initialize it.
+   */
+  public void createPartControl(Composite parent) {
+    new LoginComposite(parent, SWT.NONE);
+  }
 
-	/**
-	 * Passing the focus request to the viewer's control.
-	 */
-	public void setFocus() {
-	}
+  /**
+   * Passing the focus request to the viewer's control.
+   */
+  public void setFocus() {
+  }
 }
