@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<project default="scan" basedir=".">
+  <target name="scan">
+    <exec executable="cmd.exe">
+      <arg line="/c mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=ec28d63fef139ec22e78242ea7b5d204ac0c07a8"/>
+    </exec>
+  </target>
+</project>
