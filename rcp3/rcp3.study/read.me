@@ -1,3 +1,9 @@
 1. Difference between "lib" folder and "maven-lib" folder.
 "lib" folder contains jars manually download from web or created myself. It must be uploaded to GitHub.
 "maven-lib" folder contains jars copied by maven from POM dependencies. Don't upload to Github.
+
+2. Run SonarQube.
+Token seed: tadckle.
+Token:ec28d63fef139ec22e78242ea7b5d204ac0c07a8
+I write an ANT script to generate SonarQube report. The command is provided by SonarQube.
+Command: mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=ec28d63fef139ec22e78242ea7b5d204ac0c07a8
