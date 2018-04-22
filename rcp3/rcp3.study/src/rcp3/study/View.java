@@ -12,6 +12,7 @@ public class View extends ViewPart {
   /**
    * This is a callback that will allow us to create the viewer and initialize it.
    */
+  @Override
   public void createPartControl(Composite parent) {
     new LoginComposite(parent, SWT.NONE);
   }
@@ -19,6 +20,8 @@ public class View extends ViewPart {
   /**
    * Passing the focus request to the viewer's control.
    */
+  @Override
   public void setFocus() {
+    // Do nothing.
   }
 }
