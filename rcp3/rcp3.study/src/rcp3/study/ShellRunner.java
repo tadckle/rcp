@@ -6,10 +6,11 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.slf4j.LoggerFactory;
 
 /**
  * Extends this class to open a SWT shell.
- * 
+ *
  * @author alex
  */
 public interface ShellRunner {
@@ -39,7 +40,7 @@ public interface ShellRunner {
 
   /**
    * Get shell size.
-   * 
+   *
    * @return a Point.
    */
   default Point getShellSize() {
@@ -50,14 +51,14 @@ public interface ShellRunner {
     try {
       Thread.sleep(millis);
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      LoggerFactory.getLogger(ShellRunner.class).error(e.getMessage(), e);
       Thread.currentThread().interrupt();
     }
   }
 
   /**
    * Fill content.
-   * 
+   *
    * @param parent
    *          the parent composite.
    */

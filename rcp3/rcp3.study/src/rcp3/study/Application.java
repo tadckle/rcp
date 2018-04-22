@@ -13,10 +13,11 @@ public class Application implements IApplication {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.equinox.app.IApplication#start(org.eclipse.equinox.app.
    * IApplicationContext)
    */
+  @Override
   public Object start(IApplicationContext context) {
     Display display = PlatformUI.createDisplay();
     try {
@@ -32,15 +33,17 @@ public class Application implements IApplication {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see org.eclipse.equinox.app.IApplication#stop()
    */
+  @Override
   public void stop() {
     if (!PlatformUI.isWorkbenchRunning())
       return;
     final IWorkbench workbench = PlatformUI.getWorkbench();
     final Display display = workbench.getDisplay();
     display.syncExec(new Runnable() {
+      @Override
       public void run() {
         if (!display.isDisposed())
           workbench.close();

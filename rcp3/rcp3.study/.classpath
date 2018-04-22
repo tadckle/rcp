@@ -20,5 +20,8 @@
 	<classpathentry exported="true" kind="lib" path="maven-lib/guava-24.1-jre.jar"/>
 	<classpathentry exported="true" kind="lib" path="maven-lib/j2objc-annotations-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="maven-lib/jsr305-1.3.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="maven-lib/log4j-1.2.17.jar"/>
+	<classpathentry exported="true" kind="lib" path="maven-lib/slf4j-api-1.7.25.jar"/>
+	<classpathentry exported="true" kind="lib" path="maven-lib/slf4j-log4j12-1.7.25.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
