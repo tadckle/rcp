@@ -11,10 +11,15 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * Contains the images. Image is created by stand alone java code.
- * 
+ *
  * @author Alex
  */
 public class SWTImgResource {
+
+  /**
+   * Refresh image.
+   */
+  public static final Image REFRESH = createImg("refresh-24.png");
 
   /**
    * Heart image.

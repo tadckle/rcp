@@ -10,18 +10,21 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
+import ChartDirector.BaseChart;
 import ChartDirector.ChartViewer;
 
 /**
  * Base composite for showing a ChartViewer of ChartDirector.
- * 
+ *
  * @author Alex
  */
-public abstract class ChartComposite extends Composite {
+public class ChartComposite extends Composite {
+
+  private final ChartViewer viewer;
 
   /**
    * Construct a ChartComposite.
-   * 
+   *
    * @param parent
    *          the parent composite.
    * @param style
@@ -43,13 +46,26 @@ public abstract class ChartComposite extends Composite {
       System.exit(0);
     });
 
-    ChartViewer viewer = new ChartViewer();
+    viewer = new ChartViewer();
     frame.add(viewer, BorderLayout.CENTER);
-
-    createChart(viewer);
   }
 
-  // Create chart in ChartViewer.
-  protected abstract void createChart(ChartViewer viewer);
+  /**
+   * Set chart to composite.
+   *
+   * @param chart a chart to set.
+   */
+  public void setChart(BaseChart chart) {
+    viewer.setChart(chart);
+  }
+
+  /**
+   * @return the viewer
+   */
+  public ChartViewer getViewer() {
+    return viewer;
+  }
+
+
 
 }
