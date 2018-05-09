@@ -8,6 +8,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.slf4j.LoggerFactory;
 
+import ChartDirector.Chart;
+
 /**
  * Extends this class to open a SWT shell.
  *
@@ -19,6 +21,8 @@ public interface ShellRunner {
    * Open shell.
    */
   default void openShell() {
+    Chart.setLicenseCode("DEVP-2K23-AKUL-WPZ7-82A7-341A");
+
     Display display = Display.getDefault();
     Shell shell = new Shell(display);
     shell.setLayout(new FillLayout());
@@ -36,6 +40,9 @@ public interface ShellRunner {
     }
     shell.dispose();
     display.dispose();
+
+    // To terminate JVM.
+    System.exit(0);
   }
 
   /**

@@ -30,7 +30,7 @@ import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import rcp3.study.resource.SWTImgResource;
+import rcp3.study.resource.ImageResource;
 
 /**
  * Use Form to decorate a login composite.
@@ -49,7 +49,7 @@ public class LoginComposite extends Composite {
 
     loginForm = toolkit.createForm(this);
     loginForm.setText("Login System");
-    loginForm.setImage(SWTImgResource.LOGIN);
+    loginForm.setImage(ImageResource.LOGIN);
     loginForm.setSeparatorVisible(true);
     toolkit.decorateFormHeading(loginForm);
 
@@ -94,7 +94,7 @@ public class LoginComposite extends Composite {
         super.run();
       }
     };
-    addAction.setImageDescriptor(ImageDescriptor.createFromImage(SWTImgResource.ADD));
+    addAction.setImageDescriptor(ImageDescriptor.createFromImage(ImageResource.ADD));
     addAction.setText("Add");
     addAction.setToolTipText("Add something");
     menuManager.add(addAction);
@@ -107,7 +107,7 @@ public class LoginComposite extends Composite {
         super.run();
       }
     };
-    likeAction.setImageDescriptor(ImageDescriptor.createFromImage(SWTImgResource.HEART));
+    likeAction.setImageDescriptor(ImageDescriptor.createFromImage(ImageResource.HEART));
     likeAction.setText("Like");
     likeAction.setToolTipText("Add to favorite");
     menuManager.add(likeAction);

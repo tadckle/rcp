@@ -17,7 +17,7 @@ import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import rcp3.study.ShellRunner;
-import rcp3.study.resource.SWTImgResource;
+import rcp3.study.resource.ImageResource;
 
 /**
  * Illustrate how to use FormText.
@@ -38,7 +38,7 @@ public class FormTextUsage implements ShellRunner {
 
     FormText formText = toolkit.createFormText(parent, true);
     formText.setWhitespaceNormalized(true);
-    formText.setImage("image", SWTImgResource.HEART);
+    formText.setImage("image", ImageResource.HEART);
     formText.setColor("header", toolkit.getColors().getColor(FormColors.TITLE));
     formText.setFont("header", JFaceResources.getHeaderFont());
     formText.setFont("code", JFaceResources.getTextFont());
