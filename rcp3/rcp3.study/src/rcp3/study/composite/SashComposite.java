@@ -4,7 +4,6 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -14,10 +13,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 import rcp3.study.composite.DirectionLabel.Rotation;
+import rcp3.study.resource.ImageResource;
 
 /**
  * This composite has a sash bar which can hide or show a "hide composite".
- * 
+ *
  * Usage example: <code>
  * // SWT.LEFT means left hide.
  * // SWT.RIGHT means right hide.
@@ -27,14 +27,14 @@ import rcp3.study.composite.DirectionLabel.Rotation;
  * Composite hideComp = sashComp.getHideComp();
  * Composite mainComp = sashComp.getMainComp();
  * </code>
- * 
+ *
  * @author alzhang
  */
 public class SashComposite extends Composite {
 
   /**
    * Contains parameters that define the behavior of "hide composite".
-   * 
+   *
    * @author alzhang
    */
   public static class HideStyle {
@@ -44,7 +44,7 @@ public class SashComposite extends Composite {
 
     /**
      * Create a HideStyle of SashComposite.
-     * 
+     *
      * @param direction
      *          indicate the direction of hide composite.
      * @param width
@@ -61,7 +61,7 @@ public class SashComposite extends Composite {
 
     /**
      * Check whether it is horizontal layout.
-     * 
+     *
      * @return true if direction is SWT.LEFT or SWT.RIGHT.
      */
     public boolean isHorizontal() {
@@ -70,18 +70,6 @@ public class SashComposite extends Composite {
   }
 
   private static final Color COLOR_LIGHT_BLUE = new Color(Display.getDefault(), 225, 230, 246);
-
-  private static final Image ARROW_LEFT_IMG = new Image(Display.getDefault(),
-      SashComposite.class.getResource("arrow-left.png").getPath());
-
-  private static final Image ARROW_RIGHT_IMG = new Image(Display.getDefault(),
-      SashComposite.class.getResource("arrow-right.png").getPath());
-
-  private static final Image ARROW_UP_IMG = new Image(Display.getDefault(),
-      SashComposite.class.getResource("arrow-up.png").getPath());
-
-  private static final Image ARROW_DOWN_IMG = new Image(Display.getDefault(),
-      SashComposite.class.getResource("arrow-down.png").getPath());
 
   private final Composite hideComp;
   private final Composite sashComp;
@@ -94,7 +82,7 @@ public class SashComposite extends Composite {
 
   /**
    * Construct an instance.
-   * 
+   *
    * @param parent
    *          the parent composite.
    * @param style
@@ -189,16 +177,16 @@ public class SashComposite extends Composite {
   private void updateSashImage(boolean isVisible) {
     switch (hideStyle.direction) {
     case SWT.LEFT:
-      sashImgLbl.setImage(isVisible ? ARROW_LEFT_IMG : ARROW_RIGHT_IMG);
+      sashImgLbl.setImage(isVisible ? ImageResource.ARROW_LEFT : ImageResource.ARROW_RIGHT);
       break;
     case SWT.RIGHT:
-      sashImgLbl.setImage(isVisible ? ARROW_RIGHT_IMG : ARROW_LEFT_IMG);
+      sashImgLbl.setImage(isVisible ? ImageResource.ARROW_RIGHT : ImageResource.ARROW_LEFT);
       break;
     case SWT.UP:
-      sashImgLbl.setImage(isVisible ? ARROW_UP_IMG : ARROW_DOWN_IMG);
+      sashImgLbl.setImage(isVisible ? ImageResource.ARROW_UP : ImageResource.ARROW_DOWN);
       break;
     case SWT.DOWN:
-      sashImgLbl.setImage(isVisible ? ARROW_DOWN_IMG : ARROW_UP_IMG);
+      sashImgLbl.setImage(isVisible ? ImageResource.ARROW_DOWN : ImageResource.ARROW_UP);
       break;
     default:
       break;
@@ -213,7 +201,7 @@ public class SashComposite extends Composite {
 
   /**
    * Get the hide composite.
-   * 
+   *
    * @return the composite that will be hidden if sash bar is clicked.
    */
   public Composite getHideComp() {
@@ -222,7 +210,7 @@ public class SashComposite extends Composite {
 
   /**
    * Get the main composite.
-   * 
+   *
    * @return the composite that will always be shown.
    */
   public Composite getMainComp() {
@@ -231,7 +219,7 @@ public class SashComposite extends Composite {
 
   /**
    * Set sash text.
-   * 
+   *
    * @param text
    *          the sash text to set.
    */
@@ -239,6 +227,24 @@ public class SashComposite extends Composite {
     if (sashTxtLbl != null && text != null) {
       sashTxtLbl.setText(text.toUpperCase());
     }
+  }
+
+  /**
+   * Only show main composite. Drag sash and hide composite will be hidden.
+   *
+   * @param value true means only show main composite.
+   */
+  public void setOnlyShowMainComposite(boolean onlyShow) {
+    sashComp.setVisible(!onlyShow);
+    ((GridData) sashComp.getLayoutData()).exclude = onlyShow;
+
+    boolean showHideComp = !onlyShow && hideStyle.showByDefault;
+    hideComp.setVisible(showHideComp);
+    ((GridData) hideComp.getLayoutData()).exclude = !showHideComp;
+
+    updateSashImage(hideComp.isVisible());
+
+    this.layout();
   }
 
 }

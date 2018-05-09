@@ -40,6 +40,7 @@ public class SashCompositeUsage {
   private static void createSashComp(Shell shell, int direction) {
     SashComposite sashComp = new SashComposite(shell, SWT.BORDER, new HideStyle(direction, 100, false));
     sashComp.setSashText("Sash Label");
+    sashComp.setOnlyShowMainComposite(false);
     GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).hint(250, 250).applyTo(sashComp);
 
     Composite hideComp = sashComp.getHideComp();
