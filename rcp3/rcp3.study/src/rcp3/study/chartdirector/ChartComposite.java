@@ -107,6 +107,7 @@ public class ChartComposite extends Composite {
     GridDataFactory.swtDefaults().align(SWT.FILL, SWT.TOP).grab(true, false).applyTo(separator);
 
     sashComp = new SashComposite(this, SWT.NONE, new HideStyle(SWT.RIGHT, 100, true));
+    sashComp.setSashText("LEGEND");
     GridDataFactory.fillDefaults().grab(true, true).applyTo(sashComp);
 
     createPlotComp(sashComp);
