@@ -12,6 +12,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="test"/>
 	<classpathentry exported="true" kind="lib" path="lib/ChartDirector.jar"/>
 	<classpathentry exported="true" kind="lib" path="maven-lib/animal-sniffer-annotations-1.14.jar"/>
 	<classpathentry exported="true" kind="lib" path="maven-lib/checker-compat-qual-2.0.0.jar"/>
@@ -24,5 +25,7 @@
 	<classpathentry exported="true" kind="lib" path="maven-lib/slf4j-api-1.7.25.jar"/>
 	<classpathentry exported="true" kind="lib" path="maven-lib/slf4j-log4j12-1.7.25.jar"/>
 	<classpathentry exported="true" kind="lib" path="maven-lib/xmlunit-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="maven-lib/hamcrest-core-1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="maven-lib/junit-4.12.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
