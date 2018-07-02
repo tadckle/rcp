@@ -23,6 +23,10 @@ import org.eclipse.swt.widgets.TypedListener;
 /**
  * The util of adding column selection listener for viewer column.
  *
+ * <b>Best practice:</b>
+ * Don't need to add listener to column manually one by one. Just call addListener(viewer) when viewer has new columns.
+ * It only add listener to columns who do not have SortSelectionAdapter. So it's safe to call many times.
+ *
  * @author alzhang
  */
 public class ViewerComparatorUtil {
@@ -44,24 +48,29 @@ public class ViewerComparatorUtil {
    */
   public static void addListener(Viewer viewer) {
     if (viewer instanceof TableViewer) {
-      Arrays.stream(((TableViewer) viewer).getTable().getColumns())
+      TableViewer tableViewer = (TableViewer) viewer;
+      Arrays.stream(tableViewer.getTable().getColumns())
       .filter(column -> !hasSortSelectionAdapter(column.getListeners(SWT.Selection)))
-      .forEach(column -> addListener((TableViewer) viewer, column));
-    } else if (viewer instanceof TreeViewer) {
-      Arrays.stream(((TreeViewer) viewer).getTree().getColumns())
-      .filter(column -> !hasSortSelectionAdapter(column.getListeners(SWT.Selection)))
-      .forEach(column -> addListener((TreeViewer) viewer, column));
-    } else if (viewer instanceof GridTableViewer) {
-      addListener(((GridTableViewer) viewer).getGrid(), (GridTableViewer) viewer);
-    } else if (viewer instanceof GridTreeViewer) {
-      addListener(((GridTreeViewer) viewer).getGrid(), (GridTreeViewer) viewer);
-    }
-  }
+      .forEach(column -> addListener(tableViewer, column));
 
-  private static void addListener(Grid grid, ColumnViewer viewer) {
-    Arrays.stream(grid.getColumns())
-    .filter(column -> !hasSortSelectionAdapter(column.getListeners(SWT.Selection)))
-    .forEach(column -> addListener(viewer, column));
+    } else if (viewer instanceof TreeViewer) {
+      TreeViewer treeViewer = (TreeViewer) viewer;
+      Arrays.stream(treeViewer.getTree().getColumns())
+      .filter(column -> !hasSortSelectionAdapter(column.getListeners(SWT.Selection)))
+      .forEach(column -> addListener(treeViewer, column));
+
+    } else if (viewer instanceof GridTableViewer) {
+      GridTableViewer gridTableViewer = (GridTableViewer) viewer;
+      Arrays.stream(gridTableViewer.getGrid().getColumns())
+      .filter(column -> !hasSortSelectionAdapter(column.getListeners(SWT.Selection)))
+      .forEach(column -> addListener(gridTableViewer, column));
+
+    } else if (viewer instanceof GridTreeViewer) {
+      GridTreeViewer gridTreeViewer = (GridTreeViewer) viewer;
+      Arrays.stream(gridTreeViewer.getGrid().getColumns())
+      .filter(column -> !hasSortSelectionAdapter(column.getListeners(SWT.Selection)))
+      .forEach(column -> addListener(gridTreeViewer, column));
+    }
   }
 
   private static boolean hasSortSelectionAdapter(Listener[] listeners) {
@@ -76,16 +85,16 @@ public class ViewerComparatorUtil {
    * @param column a TableColumn.
    */
   public static void addListener(TableViewer viewer, TableColumn column) {
-    Table table = viewer.getTable();
     column.addSelectionListener(new SortSelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
+        Table table = viewer.getTable();
         TableColumn eventColumn = (TableColumn) e.widget;
         if (table.getSortColumn() == eventColumn) {
-          table.setSortDirection(SWT.UP != table.getSortDirection() ? SWT.UP : SWT.DOWN);
+          table.setSortDirection(SWT.DOWN != table.getSortDirection() ? SWT.DOWN : SWT.UP);
         } else {
           table.setSortColumn(eventColumn);
-          table.setSortDirection(SWT.UP);
+          table.setSortDirection(SWT.DOWN);
         }
         viewer.refresh();
       }
@@ -99,16 +108,16 @@ public class ViewerComparatorUtil {
    * @param column a TreeColumn.
    */
   public static void addListener(TreeViewer viewer, TreeColumn column) {
-    Tree tree = viewer.getTree();
     column.addSelectionListener(new SortSelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
+        Tree tree = viewer.getTree();
         TreeColumn eventColumn = (TreeColumn) e.widget;
         if (tree.getSortColumn() == eventColumn) {
-          tree.setSortDirection(SWT.UP != tree.getSortDirection() ? SWT.UP : SWT.DOWN);
+          tree.setSortDirection(SWT.DOWN != tree.getSortDirection() ? SWT.DOWN : SWT.UP);
         } else {
           tree.setSortColumn(eventColumn);
-          tree.setSortDirection(SWT.UP);
+          tree.setSortDirection(SWT.DOWN);
         }
         viewer.refresh();
       }
@@ -116,24 +125,35 @@ public class ViewerComparatorUtil {
   }
 
   /**
-   * Add listener to GridColumn. It is used for GridTableViewer and GridTreeTableViewer.
+   * Add listener to GridColumn of GridTableViewer.
    *
-   * @param viewer a GridTableViewer or GridTreeViewer.
+   * @param viewer a GridTableViewer.
    * @param column a GridColumn.
    */
-  public static void addListener(ColumnViewer viewer, GridColumn column) {
-    Grid grid = viewer instanceof GridTableViewer ? ((GridTableViewer) viewer).getGrid()
-        : ((GridTreeViewer) viewer).getGrid();
+  public static void addListener(GridTableViewer viewer, GridColumn column) {
+    addListener(viewer, viewer.getGrid(), column);
+  }
 
+  /**
+   * Add listener to GridColumn of GridTreeViewer.
+   *
+   * @param viewer a GridTreeViewer.
+   * @param column a GridColumn.
+   */
+  public static void addListener(GridTreeViewer viewer, GridColumn column) {
+    addListener(viewer, viewer.getGrid(), column);
+  }
+
+  private static void addListener(ColumnViewer viewer, Grid grid, GridColumn column) {
     column.addSelectionListener(new SortSelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
         GridColumn eventColumn = (GridColumn) e.widget;
-        Arrays.stream(grid.getColumns()).forEach(column -> {
-          if (column == eventColumn) {
-            column.setSort(SWT.DOWN != column.getSort() ? SWT.DOWN : SWT.UP);
+        Arrays.stream(grid.getColumns()).forEach(aColumn -> {
+          if (aColumn == eventColumn) {
+            aColumn.setSort(SWT.UP != aColumn.getSort() ? SWT.UP : SWT.DOWN);
           } else {
-            column.setSort(SWT.NONE);
+            aColumn.setSort(SWT.NONE);
           }
         });
         viewer.refresh();

@@ -47,7 +47,7 @@ class ViewerSortFactor {
    *
    * @return the columnIndex.
    */
-  public int getColumnIndex() {
+  int getColumnIndex() {
     return columnIndex;
   }
 
@@ -56,7 +56,7 @@ class ViewerSortFactor {
    *
    * @return the sortDir.
    */
-  public int getSortDir() {
+  int getSortDir() {
     return sortDir;
   }
 
@@ -66,12 +66,12 @@ class ViewerSortFactor {
    * @param viewer the viewer to sort.
    * @return a SortFactor.
    */
-  public static ViewerSortFactor get(Viewer viewer) {
+  static ViewerSortFactor get(Viewer viewer) {
     if (viewer instanceof TableViewer) {
       return get((TableViewer) viewer);
     } else if (viewer instanceof TreeViewer) {
       return get((TreeViewer) viewer);
-    } else if (viewer instanceof GridTableViewer){
+    } else if (viewer instanceof GridTableViewer) {
       return get(((GridTableViewer) viewer).getGrid());
     } else if (viewer instanceof GridTreeViewer) {
       return get(((GridTreeViewer) viewer).getGrid());
