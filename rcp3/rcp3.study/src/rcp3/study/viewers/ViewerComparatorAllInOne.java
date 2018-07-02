@@ -2,6 +2,11 @@ package rcp3.study.viewers;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.annotation.CheckForNull;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jface.viewers.CellLabelProvider;
@@ -25,11 +30,24 @@ import rcp3.study.common.AlphanumComparator;
  */
 public class ViewerComparatorAllInOne extends ViewerComparator {
 
+  @CheckForNull
+  private SimpleDateFormat dateFormat = null;
+
   /**
    * Construct an instance.
    */
   public ViewerComparatorAllInOne() {
     super(new AlphanumComparator());
+  }
+
+  /**
+   * Construct an instance.
+   *
+   * @param dateFormat a SimpleDateFormat.
+   */
+  public ViewerComparatorAllInOne(SimpleDateFormat dateFormat) {
+    this();
+    this.dateFormat = dateFormat;
   }
 
   /**
@@ -41,6 +59,10 @@ public class ViewerComparatorAllInOne extends ViewerComparator {
    */
   public int category(Object element, int sortDir) {
     return 0;
+  }
+
+  private int toCompareResult(ViewerSortFactor sortFactor, int result) {
+    return SWT.DOWN == sortFactor.getSortDir() ? result : -result;
   }
 
   @Override
@@ -62,17 +84,35 @@ public class ViewerComparatorAllInOne extends ViewerComparator {
     }
 
     if (cat1 != cat2) {
-      return SWT.DOWN == sortFactor.getSortDir() ? cat1 - cat2 : cat2 - cat1;
+      return toCompareResult(sortFactor, cat1 - cat2);
     }
 
     String text1 = getElementText((ColumnViewer) viewer, element1, sortFactor.getColumnIndex());
     String text2 = getElementText((ColumnViewer) viewer, element2, sortFactor.getColumnIndex());
+
     Double value1 = Doubles.tryParse(text1);
     Double value2 = Doubles.tryParse(text2);
+    if (value1 != null && value2 != null) {
+      return toCompareResult(sortFactor, Double.compare(value1, value2));
+    }
 
-    int result = value1 != null && value2 != null ? Double.compare(value1, value2)
-        : ((AlphanumComparator) getComparator()).compare(text1, text2);
-    return SWT.DOWN == sortFactor.getSortDir() ? result : -result;
+    Date date1 = getDate(text1);
+    Date date2 = getDate(text2);
+    if (date1 != null && date2 != null) {
+      return toCompareResult(sortFactor, date1.compareTo(date2));
+    }
+
+    return toCompareResult(sortFactor, ((AlphanumComparator) getComparator()).compare(text1, text2));
+  }
+
+  @CheckForNull
+  private Date getDate(String text) {
+    try {
+      return dateFormat != null ? dateFormat.parse(text) : null;
+    } catch (ParseException e) {
+      // Given text is not Date. Return null.
+      return null;
+    }
   }
 
   private String getElementText(ColumnViewer viewer, Object element, int columnIndex) {
