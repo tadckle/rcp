@@ -34,4 +34,8 @@ Bundle-ClassPath: .,
  maven-lib/apiguardian-api-1.0.0.jar,
  maven-lib/junit-jupiter-api-5.2.0.jar,
  maven-lib/junit-platform-commons-1.2.0.jar,
- maven-lib/opentest4j-1.1.0.jar
+ maven-lib/opentest4j-1.1.0.jar,
+ maven-lib/junit-jupiter-engine-5.2.0.jar,
+ maven-lib/junit-platform-engine-1.2.0.jar,
+ maven-lib/junit-platform-launcher-1.2.0.jar,
+ maven-lib/junit-vintage-engine-5.2.0.jar

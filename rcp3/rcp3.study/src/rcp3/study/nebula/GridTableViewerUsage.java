@@ -19,10 +19,12 @@ import rcp3.study.viewers.StudentColumnEditingSupport;
 import rcp3.study.viewers.StudentFactory;
 import rcp3.study.viewers.StudentLabelProvider;
 import rcp3.study.viewers.StudentTableContentProvider;
+import rcp3.study.viewers.ViewerComparatorAllInOne;
+import rcp3.study.viewers.ViewerComparatorUtil;
 
 /**
  * Illustrate how to use GridTableViewer.
- * 
+ *
  * @author Alex
  */
 public class GridTableViewerUsage implements ShellRunner {
@@ -73,6 +75,9 @@ public class GridTableViewerUsage implements ShellRunner {
     }
 
     Arrays.stream(grid.getColumns()).forEach(GridColumn::pack);
+
+    tableViewer.setComparator(new ViewerComparatorAllInOne());
+    ViewerComparatorUtil.addListener(tableViewer);
   }
 
   private GridViewerColumn createViewerColumn(GridTableViewer tableViewer, String text) {
