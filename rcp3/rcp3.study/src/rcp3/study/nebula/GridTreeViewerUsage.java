@@ -17,10 +17,12 @@ import rcp3.study.viewers.StudentColumnEditingSupport;
 import rcp3.study.viewers.StudentFactory;
 import rcp3.study.viewers.StudentLabelProvider;
 import rcp3.study.viewers.StudentTreeContentProvider;
+import rcp3.study.viewers.ViewerComparatorAllInOne;
+import rcp3.study.viewers.ViewerComparatorUtil;
 
 /**
  * Illustrate how to use GridTreeViewer.
- * 
+ *
  * @author Alex
  */
 public class GridTreeViewerUsage implements ShellRunner {
@@ -60,6 +62,9 @@ public class GridTreeViewerUsage implements ShellRunner {
     treeViewer.setInput(StudentFactory.treeInput());
 
     Arrays.stream(grid.getColumns()).forEach(GridColumn::pack);
+
+    treeViewer.setComparator(new ViewerComparatorAllInOne());
+    ViewerComparatorUtil.addListener(treeViewer);
   }
 
   private GridViewerColumn createViewerColumn(GridTreeViewer treeViewer, String text) {

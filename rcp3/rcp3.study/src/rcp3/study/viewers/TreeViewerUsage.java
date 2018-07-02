@@ -15,7 +15,7 @@ import rcp3.study.ShellRunner;
 
 /**
  * Illustrate how to use TreeViewer.
- * 
+ *
  * @author Alex
  */
 public class TreeViewerUsage implements ShellRunner {
@@ -52,6 +52,9 @@ public class TreeViewerUsage implements ShellRunner {
     treeViewer.setInput(StudentFactory.treeInput());
 
     Arrays.stream(tree.getColumns()).forEach(TreeColumn::pack);
+
+    treeViewer.setComparator(new ViewerComparatorAllInOne());
+    ViewerComparatorUtil.addListener(treeViewer);
   }
 
   private TreeViewerColumn createViewerColumn(TreeViewer treeViewer, String text) {

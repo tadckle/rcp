@@ -15,7 +15,7 @@ import rcp3.study.ShellRunner;
 
 /**
  * A sample that only show data in TableViewer.
- * 
+ *
  * @author Alex
  */
 public class TableViewerUsage1 implements ShellRunner {
@@ -49,6 +49,9 @@ public class TableViewerUsage1 implements ShellRunner {
     addEditCapability(tableViewer);
     tableViewer.setInput(StudentFactory.tableInput());
     Arrays.stream(table.getColumns()).forEach(TableColumn::pack);
+
+    tableViewer.setComparator(new ViewerComparatorAllInOne());
+    ViewerComparatorUtil.addListener(tableViewer);
   }
 
   private TableViewerColumn createViewerColumn(TableViewer tableViewer, String text) {
