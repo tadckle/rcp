@@ -1,5 +1,6 @@
 package rcp3.study.viewers;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +41,7 @@ public class TableViewerUsage1 implements ShellRunner {
     viewerColumns.add(createViewerColumn(tableViewer, "Country"));
     viewerColumns.add(createViewerColumn(tableViewer, "Height"));
     viewerColumns.add(createViewerColumn(tableViewer, "Married"));
+    viewerColumns.add(createViewerColumn(tableViewer, "Date"));
     TableViewerColumn colorViewerColumn = createViewerColumn(tableViewer, "Color");
     viewerColumns.add(colorViewerColumn);
 
@@ -50,7 +52,7 @@ public class TableViewerUsage1 implements ShellRunner {
     tableViewer.setInput(StudentFactory.tableInput());
     Arrays.stream(table.getColumns()).forEach(TableColumn::pack);
 
-    tableViewer.setComparator(new ViewerComparatorAllInOne());
+    tableViewer.setComparator(new ViewerComparatorAllInOne(new SimpleDateFormat("dd-MM-yyyy")));
     ViewerComparatorUtil.addListener(tableViewer);
   }
 

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package rcp3.study.viewers;
 
@@ -14,14 +14,14 @@ import rcp3.study.viewers.Student.Sex;
 
 /**
  * A Factory to create a list of students.
- * 
+ *
  * @author Alex
  */
 public class StudentFactory {
 
   /**
    * Create a list with five Student.
-   * 
+   *
    * @return a list of Student.
    */
   public static List<Student> tableInput() {
@@ -30,6 +30,7 @@ public class StudentFactory {
     String[] countries = { "French", "Holland", "America", "Sweeden", "Germany" };
     Double[] heights = { 1.43, 1.67, 1.89, 1.75, 1.82 };
     Boolean[] isMarrieds = { true, false, true, true, false };
+    String[] dates = {"5-3-2011", "27-4-2010", "4-12-2013", "14-8-2009", "1-3-2011"};
     RGB[] favoriteColors = { new RGB(255, 0, 0), new RGB(255, 0, 255), new RGB(0, 0, 255), new RGB(255, 128, 0),
         new RGB(0, 0, 0) };
 
@@ -42,6 +43,7 @@ public class StudentFactory {
       student.setCountry(countries[i]);
       student.setHeight(heights[i]);
       student.setMarried(isMarrieds[i]);
+      student.setDate(dates[i]);
       student.setFavoriteColor(favoriteColors[i]);
 
       students.add(student);
@@ -52,7 +54,7 @@ public class StudentFactory {
 
   /**
    * Create a tree input students. One parent node with five children nodes.
-   * 
+   *
    * @return a list of Student.
    */
   public static List<Student> treeInput() {

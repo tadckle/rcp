@@ -7,13 +7,13 @@ import org.eclipse.swt.graphics.RGB;
 
 /**
  * Student entity.
- * 
+ *
  * @author Alex
  */
 public class Student {
   /**
    * Sex enum.
-   * 
+   *
    * @author Alex
    */
   public enum Sex {
@@ -31,7 +31,7 @@ public class Student {
 
     /**
      * Convert a name to enum.
-     * 
+     *
      * @param name
      *          sex name.
      * @return sex enum.
@@ -42,7 +42,7 @@ public class Student {
 
     /**
      * Find a Sex whose ordinal is same as the input.
-     * 
+     *
      * @param ordinal
      *          sex ordinal.
      * @return sex.
@@ -61,6 +61,8 @@ public class Student {
   private double height;
 
   private boolean isMarried;
+
+  private String date;
 
   private RGB favoriteColor;
 
@@ -141,6 +143,24 @@ public class Student {
    */
   public void setMarried(boolean isMarried) {
     this.isMarried = isMarried;
+  }
+
+  /**
+   * Get the the date.
+   *
+   * @return the date.
+   */
+  public String getDate() {
+    return date;
+  }
+
+  /**
+   * Set the date.
+   *
+   * @param date the date to set
+   */
+  public void setDate(String date) {
+    this.date = date;
   }
 
   /**
