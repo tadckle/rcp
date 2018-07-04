@@ -29,7 +29,9 @@ public class TableViewerUsage1 implements ShellRunner {
 
   @Override
   public void fillContent(Composite parent) {
-    TableViewer tableViewer = new TableViewer(parent, SWT.CHECK | SWT.FULL_SELECTION);
+    TableViewer tableViewer = ViewerFactory.instance()
+        .setComparator(new ViewerComparatorAllInOne(new SimpleDateFormat("dd-MM-yyyy")))
+        .createTableViewer(parent, SWT.CHECK | SWT.FULL_SELECTION);
     tableViewer.setContentProvider(new StudentTableContentProvider());
 
     Table table = tableViewer.getTable();
@@ -51,9 +53,6 @@ public class TableViewerUsage1 implements ShellRunner {
     addEditCapability(tableViewer);
     tableViewer.setInput(StudentFactory.tableInput());
     Arrays.stream(table.getColumns()).forEach(TableColumn::pack);
-
-    tableViewer.setComparator(new ViewerComparatorAllInOne(new SimpleDateFormat("dd-MM-yyyy")));
-    ViewerComparatorUtil.addListener(tableViewer);
   }
 
   private TableViewerColumn createViewerColumn(TableViewer tableViewer, String text) {

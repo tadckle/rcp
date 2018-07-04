@@ -35,10 +35,9 @@
 	<classpathentry exported="true" kind="lib" path="maven-lib/junit-platform-engine-1.2.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="maven-lib/junit-platform-launcher-1.2.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="maven-lib/junit-vintage-engine-5.2.0.jar"/>
-	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="maven-lib/ant-1.9.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="maven-lib/ant-launcher-1.9.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="maven-lib/asm-6.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="maven-lib/cglib-3.2.6.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

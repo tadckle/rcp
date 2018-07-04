@@ -66,6 +66,7 @@ public class StudentFactory {
     parent.setCountry("Russia");
     parent.setHeight(0.34);
     parent.setMarried(true);
+    parent.setDate("22-6-2008");
     parent.setFavoriteColor(new RGB(255, 0, 0));
 
     parent.setStudents(students);

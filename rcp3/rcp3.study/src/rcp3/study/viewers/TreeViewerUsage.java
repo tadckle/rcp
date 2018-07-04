@@ -1,5 +1,6 @@
 package rcp3.study.viewers;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +29,9 @@ public class TreeViewerUsage implements ShellRunner {
 
   @Override
   public void fillContent(Composite parent) {
-    TreeViewer treeViewer = new TreeViewer(parent, SWT.FULL_SELECTION);
+    TreeViewer treeViewer = ViewerFactory.instance()
+        .setComparator(new ViewerComparatorAllInOne(new SimpleDateFormat("dd-MM-yyyy")))
+        .createTreeViewer(parent, SWT.FULL_SELECTION);
     treeViewer.setContentProvider(new StudentTreeContentProvider());
     treeViewer.setAutoExpandLevel(2);
 
@@ -52,9 +55,6 @@ public class TreeViewerUsage implements ShellRunner {
     treeViewer.setInput(StudentFactory.treeInput());
 
     Arrays.stream(tree.getColumns()).forEach(TreeColumn::pack);
-
-    treeViewer.setComparator(new ViewerComparatorAllInOne());
-    ViewerComparatorUtil.addListener(treeViewer);
   }
 
   private TreeViewerColumn createViewerColumn(TreeViewer treeViewer, String text) {

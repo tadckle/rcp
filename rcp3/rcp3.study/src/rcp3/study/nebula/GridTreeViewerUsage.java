@@ -1,5 +1,6 @@
 package rcp3.study.nebula;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +19,7 @@ import rcp3.study.viewers.StudentFactory;
 import rcp3.study.viewers.StudentLabelProvider;
 import rcp3.study.viewers.StudentTreeContentProvider;
 import rcp3.study.viewers.ViewerComparatorAllInOne;
-import rcp3.study.viewers.ViewerComparatorUtil;
+import rcp3.study.viewers.ViewerFactory;
 
 /**
  * Illustrate how to use GridTreeViewer.
@@ -35,7 +36,9 @@ public class GridTreeViewerUsage implements ShellRunner {
 
   @Override
   public void fillContent(Composite parent) {
-    GridTreeViewer treeViewer = new GridTreeViewer(parent, SWT.FULL_SELECTION);
+    GridTreeViewer treeViewer = ViewerFactory.instance()
+        .setComparator(new ViewerComparatorAllInOne(new SimpleDateFormat("dd-MM-yyyy")))
+        .createGridTreeViewer(parent, SWT.FULL_SELECTION);
     treeViewer.setContentProvider(new StudentTreeContentProvider());
     treeViewer.setAutoExpandLevel(2);
 
@@ -62,9 +65,6 @@ public class GridTreeViewerUsage implements ShellRunner {
     treeViewer.setInput(StudentFactory.treeInput());
 
     Arrays.stream(grid.getColumns()).forEach(GridColumn::pack);
-
-    treeViewer.setComparator(new ViewerComparatorAllInOne());
-    ViewerComparatorUtil.addListener(treeViewer);
   }
 
   private GridViewerColumn createViewerColumn(GridTreeViewer treeViewer, String text) {
