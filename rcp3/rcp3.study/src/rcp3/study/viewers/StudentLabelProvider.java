@@ -6,7 +6,7 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * The label provider for Student columns.
- * 
+ *
  * @author Alex
  */
 public class StudentLabelProvider extends ColumnLabelProvider implements ITableLabelProvider {
@@ -28,11 +28,11 @@ public class StudentLabelProvider extends ColumnLabelProvider implements ITableL
     case 3:
       return String.valueOf(student.getHeight());
     case 4:
-      return student.isMarried() ? "YES" : "NO";
+      return student.getDate();
     case 5:
-      return "";
+      return student.isMarried() ? "YES" : "NO";
     default:
-      return null;
+      return "";
     }
   }
 }

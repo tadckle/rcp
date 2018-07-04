@@ -20,7 +20,7 @@ import rcp3.study.viewers.StudentFactory;
 import rcp3.study.viewers.StudentLabelProvider;
 import rcp3.study.viewers.StudentTableContentProvider;
 import rcp3.study.viewers.ViewerComparatorAllInOne;
-import rcp3.study.viewers.ViewerComparatorUtil;
+import rcp3.study.viewers.ViewerFactory;
 
 /**
  * Illustrate how to use GridTableViewer.
@@ -37,7 +37,9 @@ public class GridTableViewerUsage implements ShellRunner {
 
   @Override
   public void fillContent(Composite parent) {
-    GridTableViewer tableViewer = new GridTableViewer(parent, SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL);
+    GridTableViewer tableViewer = ViewerFactory.instance()
+        .setComparator(new ViewerComparatorAllInOne())
+        .createGridTableViewer(parent, SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL);
     tableViewer.setContentProvider(new StudentTableContentProvider());
 
     Grid grid = tableViewer.getGrid();
@@ -75,9 +77,6 @@ public class GridTableViewerUsage implements ShellRunner {
     }
 
     Arrays.stream(grid.getColumns()).forEach(GridColumn::pack);
-
-    tableViewer.setComparator(new ViewerComparatorAllInOne());
-    ViewerComparatorUtil.addListener(tableViewer);
   }
 
   private GridViewerColumn createViewerColumn(GridTableViewer tableViewer, String text) {

@@ -1,5 +1,6 @@
 package rcp3.study.viewers;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +29,9 @@ public class TableViewerUsage1 implements ShellRunner {
 
   @Override
   public void fillContent(Composite parent) {
-    TableViewer tableViewer = new TableViewer(parent, SWT.CHECK | SWT.FULL_SELECTION);
+    TableViewer tableViewer = ViewerFactory.instance()
+        .setComparator(new ViewerComparatorAllInOne(new SimpleDateFormat("dd-MM-yyyy")))
+        .createTableViewer(parent, SWT.CHECK | SWT.FULL_SELECTION);
     tableViewer.setContentProvider(new StudentTableContentProvider());
 
     Table table = tableViewer.getTable();
@@ -40,6 +43,7 @@ public class TableViewerUsage1 implements ShellRunner {
     viewerColumns.add(createViewerColumn(tableViewer, "Country"));
     viewerColumns.add(createViewerColumn(tableViewer, "Height"));
     viewerColumns.add(createViewerColumn(tableViewer, "Married"));
+    viewerColumns.add(createViewerColumn(tableViewer, "Date"));
     TableViewerColumn colorViewerColumn = createViewerColumn(tableViewer, "Color");
     viewerColumns.add(colorViewerColumn);
 
@@ -49,9 +53,6 @@ public class TableViewerUsage1 implements ShellRunner {
     addEditCapability(tableViewer);
     tableViewer.setInput(StudentFactory.tableInput());
     Arrays.stream(table.getColumns()).forEach(TableColumn::pack);
-
-    tableViewer.setComparator(new ViewerComparatorAllInOne());
-    ViewerComparatorUtil.addListener(tableViewer);
   }
 
   private TableViewerColumn createViewerColumn(TableViewer tableViewer, String text) {
