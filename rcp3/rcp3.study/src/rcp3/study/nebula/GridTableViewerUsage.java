@@ -38,7 +38,7 @@ public class GridTableViewerUsage implements ShellRunner {
   @Override
   public void fillContent(Composite parent) {
     GridTableViewer tableViewer = ViewerFactory.instance()
-        .setComparator(new ViewerComparatorAllInOne())
+        .enableSort()
         .createGridTableViewer(parent, SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL);
     tableViewer.setContentProvider(new StudentTableContentProvider());
 

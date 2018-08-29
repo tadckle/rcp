@@ -30,7 +30,7 @@ public class TreeViewerUsage implements ShellRunner {
   @Override
   public void fillContent(Composite parent) {
     TreeViewer treeViewer = ViewerFactory.instance()
-        .setComparator(new ViewerComparatorAllInOne(new SimpleDateFormat("dd-MM-yyyy")))
+        .enableSort(new SimpleDateFormat("dd-MM-yyyy"))
         .createTreeViewer(parent, SWT.FULL_SELECTION);
     treeViewer.setContentProvider(new StudentTreeContentProvider());
     treeViewer.setAutoExpandLevel(2);

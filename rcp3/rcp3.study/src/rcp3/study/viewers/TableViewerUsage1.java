@@ -5,12 +5,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import rcp3.study.ShellRunner;
 
@@ -23,18 +29,41 @@ public class TableViewerUsage1 implements ShellRunner {
 
   protected List<TableViewerColumn> viewerColumns = new ArrayList<>();
 
+  private final FormToolkit toolkit = new FormToolkit(Display.getDefault());
+  private final ViewerFilterOnCellText viewerFilter = new ViewerFilterOnCellText();
+  private TableViewer tableViewer;
+
   public static void main(String[] args) {
     new TableViewerUsage1().openShell();
   }
 
   @Override
   public void fillContent(Composite parent) {
-    TableViewer tableViewer = ViewerFactory.instance()
-        .setComparator(new ViewerComparatorAllInOne(new SimpleDateFormat("dd-MM-yyyy")))
+    GridLayoutFactory.swtDefaults().numColumns(2).applyTo(parent);
+    toolkit.adapt(parent);
+
+    Label searchLbl = toolkit.createLabel(parent, "Search", SWT.NONE);
+    GridDataFactory.swtDefaults().applyTo(searchLbl);
+
+    Text searchText = toolkit.createText(parent, "", SWT.BORDER);
+    GridDataFactory.swtDefaults().hint(300, SWT.DEFAULT).applyTo(searchText);
+    searchText.addModifyListener(event -> Display.getDefault().asyncExec(() -> {
+        if (tableViewer != null) {
+          viewerFilter.setSearchText(searchText.getText());
+          tableViewer.refresh();
+        }
+      }));
+
+    tableViewer = ViewerFactory.instance()
+        .enableSort(new SimpleDateFormat("dd-MM-yyyy"))
         .createTableViewer(parent, SWT.CHECK | SWT.FULL_SELECTION);
+    tableViewer.setFilters(viewerFilter);
     tableViewer.setContentProvider(new StudentTableContentProvider());
 
+    tableViewer.refresh();
+
     Table table = tableViewer.getTable();
+    GridDataFactory.fillDefaults().grab(true, true).span(2, 1).applyTo(table);
     table.setHeaderVisible(true);
     table.setLinesVisible(true);
 

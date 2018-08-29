@@ -18,7 +18,6 @@ import rcp3.study.viewers.StudentColumnEditingSupport;
 import rcp3.study.viewers.StudentFactory;
 import rcp3.study.viewers.StudentLabelProvider;
 import rcp3.study.viewers.StudentTreeContentProvider;
-import rcp3.study.viewers.ViewerComparatorAllInOne;
 import rcp3.study.viewers.ViewerFactory;
 
 /**
@@ -37,7 +36,7 @@ public class GridTreeViewerUsage implements ShellRunner {
   @Override
   public void fillContent(Composite parent) {
     GridTreeViewer treeViewer = ViewerFactory.instance()
-        .setComparator(new ViewerComparatorAllInOne(new SimpleDateFormat("dd-MM-yyyy")))
+        .enableSort(new SimpleDateFormat("dd-MM-yyyy"))
         .createGridTreeViewer(parent, SWT.FULL_SELECTION);
     treeViewer.setContentProvider(new StudentTreeContentProvider());
     treeViewer.setAutoExpandLevel(2);
