@@ -8,7 +8,6 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
 import org.eclipse.nebula.jface.gridviewer.GridTreeViewer;
-import org.eclipse.nebula.widgets.grid.Grid;
 import org.eclipse.nebula.widgets.grid.GridColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -78,6 +77,19 @@ public class ViewerComparatorUtil {
         && ((TypedListener) listener).getEventListener() instanceof SortSelectionAdapter);
   }
 
+  private static int nextDirection(int previousDirection) {
+    switch (previousDirection) {
+    case SWT.NONE:
+      return SWT.DOWN;
+    case SWT.DOWN:
+      return SWT.UP;
+    case SWT.UP:
+      return SWT.NONE;
+    default:
+      return SWT.NONE;
+    }
+  }
+
   /**
    * Add listener to TableColumn.
    *
@@ -90,12 +102,11 @@ public class ViewerComparatorUtil {
       public void widgetSelected(SelectionEvent e) {
         Table table = viewer.getTable();
         TableColumn eventColumn = (TableColumn) e.widget;
-        if (table.getSortColumn() == eventColumn) {
-          table.setSortDirection(SWT.DOWN != table.getSortDirection() ? SWT.DOWN : SWT.UP);
-        } else {
+        TableColumn sortColumn;
+        if ((sortColumn = table.getSortColumn()) == null || sortColumn != eventColumn) {
           table.setSortColumn(eventColumn);
-          table.setSortDirection(SWT.DOWN);
         }
+        table.setSortDirection(nextDirection(table.getSortDirection()));
         viewer.refresh();
       }
     });
@@ -113,49 +124,22 @@ public class ViewerComparatorUtil {
       public void widgetSelected(SelectionEvent e) {
         Tree tree = viewer.getTree();
         TreeColumn eventColumn = (TreeColumn) e.widget;
-        if (tree.getSortColumn() == eventColumn) {
-          tree.setSortDirection(SWT.DOWN != tree.getSortDirection() ? SWT.DOWN : SWT.UP);
-        } else {
+        TreeColumn sortColumn;
+        if ((sortColumn = tree.getSortColumn()) == null || sortColumn != eventColumn) {
           tree.setSortColumn(eventColumn);
-          tree.setSortDirection(SWT.DOWN);
         }
+        tree.setSortDirection(nextDirection(tree.getSortDirection()));
         viewer.refresh();
       }
     });
   }
 
-  /**
-   * Add listener to GridColumn of GridTableViewer.
-   *
-   * @param viewer a GridTableViewer.
-   * @param column a GridColumn.
-   */
-  public static void addListener(GridTableViewer viewer, GridColumn column) {
-    addListener(viewer, viewer.getGrid(), column);
-  }
-
-  /**
-   * Add listener to GridColumn of GridTreeViewer.
-   *
-   * @param viewer a GridTreeViewer.
-   * @param column a GridColumn.
-   */
-  public static void addListener(GridTreeViewer viewer, GridColumn column) {
-    addListener(viewer, viewer.getGrid(), column);
-  }
-
-  private static void addListener(ColumnViewer viewer, Grid grid, GridColumn column) {
+  private static void addListener(ColumnViewer viewer, GridColumn column) {
     column.addSelectionListener(new SortSelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
         GridColumn eventColumn = (GridColumn) e.widget;
-        Arrays.stream(grid.getColumns()).forEach(aColumn -> {
-          if (aColumn == eventColumn) {
-            aColumn.setSort(SWT.UP != aColumn.getSort() ? SWT.UP : SWT.DOWN);
-          } else {
-            aColumn.setSort(SWT.NONE);
-          }
-        });
+        eventColumn.setSort(nextDirection(eventColumn.getSort()));
         viewer.refresh();
       }
     });
