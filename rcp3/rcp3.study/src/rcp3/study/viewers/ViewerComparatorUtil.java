@@ -77,6 +77,19 @@ public class ViewerComparatorUtil {
     return Arrays.stream(listeners).anyMatch(listener -> listener instanceof TypedListener
         && ((TypedListener) listener).getEventListener() instanceof SortSelectionAdapter);
   }
+  
+  private static int nextDirection(int previousDirection) {
+    switch (previousDirection) {
+    case SWT.NONE:
+      return SWT.DOWN;
+    case SWT.DOWN:
+      return SWT.UP;
+    case SWT.UP:
+      return SWT.NONE;
+    default:
+      return SWT.NONE;
+    }
+  }
 
   /**
    * Add listener to TableColumn.
