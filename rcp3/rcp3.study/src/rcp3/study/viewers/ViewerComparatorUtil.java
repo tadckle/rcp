@@ -77,7 +77,7 @@ public class ViewerComparatorUtil {
     return Arrays.stream(listeners).anyMatch(listener -> listener instanceof TypedListener
         && ((TypedListener) listener).getEventListener() instanceof SortSelectionAdapter);
   }
-  
+
   private static int nextDirection(int previousDirection) {
     switch (previousDirection) {
     case SWT.NONE:
