@@ -105,8 +105,10 @@ public class ViewerComparatorUtil {
         TableColumn sortColumn;
         if ((sortColumn = table.getSortColumn()) == null || sortColumn != eventColumn) {
           table.setSortColumn(eventColumn);
+          table.setSortDirection(SWT.DOWN);
+        } else {
+          table.setSortDirection(nextDirection(table.getSortDirection()));
         }
-        table.setSortDirection(nextDirection(table.getSortDirection()));
         viewer.refresh();
       }
     });
@@ -127,14 +129,22 @@ public class ViewerComparatorUtil {
         TreeColumn sortColumn;
         if ((sortColumn = tree.getSortColumn()) == null || sortColumn != eventColumn) {
           tree.setSortColumn(eventColumn);
+          tree.setSortDirection(SWT.DOWN);
+        } else {
+          tree.setSortDirection(nextDirection(tree.getSortDirection()));
         }
-        tree.setSortDirection(nextDirection(tree.getSortDirection()));
         viewer.refresh();
       }
     });
   }
 
-  private static void addListener(ColumnViewer viewer, GridColumn column) {
+  /**
+   * Add listener to GridColumn.
+   *
+   * @param viewer a ColumnViewer.
+   * @param column a GridColumn
+   */
+  public static void addListener(ColumnViewer viewer, GridColumn column) {
     column.addSelectionListener(new SortSelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
