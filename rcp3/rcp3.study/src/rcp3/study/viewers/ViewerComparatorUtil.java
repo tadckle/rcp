@@ -91,7 +91,7 @@ public class ViewerComparatorUtil {
         Table table = viewer.getTable();
         TableColumn eventColumn = (TableColumn) e.widget;
         if (table.getSortColumn() == eventColumn) {
-          table.setSortDirection(SWT.DOWN != table.getSortDirection() ? SWT.DOWN : SWT.UP);
+          table.setSortDirection(nextDirection(table.getSortDirection()));
         } else {
           table.setSortColumn(eventColumn);
           table.setSortDirection(SWT.DOWN);
@@ -114,7 +114,7 @@ public class ViewerComparatorUtil {
         Tree tree = viewer.getTree();
         TreeColumn eventColumn = (TreeColumn) e.widget;
         if (tree.getSortColumn() == eventColumn) {
-          tree.setSortDirection(SWT.DOWN != tree.getSortDirection() ? SWT.DOWN : SWT.UP);
+          tree.setSortDirection(nextDirection(tree.getSortDirection()));
         } else {
           tree.setSortColumn(eventColumn);
           tree.setSortDirection(SWT.DOWN);
@@ -151,7 +151,7 @@ public class ViewerComparatorUtil {
         GridColumn eventColumn = (GridColumn) e.widget;
         Arrays.stream(grid.getColumns()).forEach(aColumn -> {
           if (aColumn == eventColumn) {
-            aColumn.setSort(SWT.UP != aColumn.getSort() ? SWT.UP : SWT.DOWN);
+            aColumn.setSort(nextDirection(aColumn.getSort()));
           } else {
             aColumn.setSort(SWT.NONE);
           }
