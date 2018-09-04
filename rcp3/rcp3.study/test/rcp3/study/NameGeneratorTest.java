@@ -2,8 +2,6 @@ package rcp3.study;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.Lists;
@@ -19,10 +17,17 @@ public class NameGeneratorTest {
 
   @Test
   public void testNext() {
-    List<String> existingNames = Lists.newArrayList();
     NameGenerator nameGenerator = new NameGenerator("NewName");
-    assertEquals("NewName1", nameGenerator.next(existingNames));
+    assertEquals("NewName1", nameGenerator.next(Lists.newArrayList()));
+    assertEquals("NewName1", nameGenerator.next(null));
 
+    assertEquals("NewName5", nameGenerator.next(Lists.newArrayList(
+        "NewName1", "NewName 4")));
+
+    assertEquals("NewName7", nameGenerator.next(Lists.newArrayList(
+        "abcNewName1", "dsNewName 6sd")));
+    assertEquals("NewName1", nameGenerator.next(Lists.newArrayList(
+        "abcNewName", "dsNewName  sd")));
   }
 
 }
