@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
  */
 public class ImageResource {
 
+  public static final Image ERROR = createImg("error.jpg");
+
   /**
    * Arrow left image.
    */
