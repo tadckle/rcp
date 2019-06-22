@@ -38,6 +38,7 @@ import net.sf.cglib.proxy.MethodProxy;
 public class ViewerFactory {
 
   private static class ViewerControlMethodInterceptor implements MethodInterceptor {
+    private final ViewerClasses viewerClzs = ViewerClasses.instance();
     private ViewerColumnPersistor columnPersistor = ViewerColumnPersistor.instance();
 
     @CheckForNull
@@ -65,11 +66,12 @@ public class ViewerFactory {
     }
 
     private void addSortListener(Method method, Object[] args) throws Throwable {
+
       if (Table.class.getDeclaredMethod("createItem", TableColumn.class, int.class).equals(method)) {
         ViewerComparatorUtil.addListener((TableViewer) columnViewer, (TableColumn) args[0]);
       } else if (Tree.class.getDeclaredMethod("createItem", TreeColumn.class, int.class).equals(method)) {
         ViewerComparatorUtil.addListener((TreeViewer) columnViewer, (TreeColumn) args[0]);
-      } else if (Grid.class.getDeclaredMethod("newColumn", GridColumn.class, int.class).equals(method)) {
+      } else if (method.getName().equals("newColumn")) {
         if (columnViewer instanceof GridTableViewer) {
           ViewerComparatorUtil.addListener((GridTableViewer) columnViewer, (GridColumn) args[0]);
         } else if (columnViewer instanceof GridTreeViewer) {
@@ -78,6 +80,9 @@ public class ViewerFactory {
       }
     }
   }
+
+
+  private final ViewerClasses viewerClzs = ViewerClasses.instance();
 
   @CheckForNull
   private ViewerComparator comparator = null;
@@ -124,7 +129,7 @@ public class ViewerFactory {
    * @return a GridTableViewer.
    */
   public GridTableViewer createGridTableViewer(Composite parent, int style) {
-    return doCreateViewer(parent, style, Grid.class, GridTableViewer.class);
+    return doCreateViewer(parent, style, viewerClzs.gridClz, GridTableViewer.class);
   }
 
   /**
@@ -141,6 +146,9 @@ public class ViewerFactory {
   private <T extends ColumnViewer> T doCreateViewer(Composite parent, int style,
       Class<? extends Widget> proxyClass, Class<T> viewerClass) {
     Enhancer enhancer = new Enhancer();
+
+    // Set enhancer's class loader. Otherwise it uses proxy class' ClassLoader
+    // to load CGLIB related jar. Which is wrong.
     enhancer.setClassLoader(enhancer.getClass().getClassLoader());
     enhancer.setSuperclass(proxyClass);
     ViewerControlMethodInterceptor methodInterceptor = new ViewerControlMethodInterceptor();
