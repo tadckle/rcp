@@ -31,25 +31,18 @@ public class SashFormUsage implements ShellRunner {
     Listener listener = new Listener() {
       @Override
       public void handleEvent(Event event) {
-        hackSashForm(sashForm);
+        hackSashForm(sashForm, 150, 250);
         btn1.removeListener(SWT.Resize, this);
       }
     };
     btn1.addListener(SWT.Resize, listener);
   }
 
-  private void hackSashForm(SashForm sashForm) {
-    // Set a minimum width on the sash so that the
-    // controls on the left are always visible.
-
-    // First, find the sash child on the sashform...
+  private void hackSashForm(SashForm sashForm, int leftWidth, int rightWidth) {
     Control[] comps = sashForm.getChildren();
     for (Control comp : comps){
 
       if (comp instanceof Sash){
-        // My limit is derived from the size of a
-        // toolbar; yours can be any size you wish ...
-
         final int SASH_LIMIT = 200;
         final Sash sash = (Sash)comp;
 
@@ -59,7 +52,7 @@ public class SashFormUsage implements ShellRunner {
           @Override
           public void handleEvent(Event event) {
             Rectangle rect = sash.getParent().getClientArea();
-            if (Double.compare(event.x, SASH_LIMIT) < 0 || Double.compare(event.x, rect.width - SASH_LIMIT) > 0) {
+            if (Double.compare(event.x, leftWidth) < 0 || Double.compare(event.x, rect.width - rightWidth) > 0) {
               event.doit = false;
             } else {
               listener.handleEvent(event);
