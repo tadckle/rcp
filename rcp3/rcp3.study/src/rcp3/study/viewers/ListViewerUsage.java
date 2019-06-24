@@ -76,7 +76,7 @@ public class ListViewerUsage implements ShellRunner {
 
   private void createTableViewer(Composite parent) {
     TableViewer tableViewer = new TableViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
-    tableViewer.setFilters(viewerFilter);
+    tableViewer.addFilter(viewerFilter);
     tableViewer.setContentProvider(ArrayContentProvider.getInstance());
     Table table = tableViewer.getTable();
     GridDataFactory.swtDefaults().applyTo(table);
@@ -146,7 +146,7 @@ public class ListViewerUsage implements ShellRunner {
 
   private void createComboViewer(Composite parent) {
     ComboViewer viewer = new ComboViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL);
-    viewer.setFilters(viewerFilter);
+    viewer.addFilter(viewerFilter);
     GridDataFactory.swtDefaults().applyTo(viewer.getCombo());
     viewer.setContentProvider(ArrayContentProvider.getInstance());
 

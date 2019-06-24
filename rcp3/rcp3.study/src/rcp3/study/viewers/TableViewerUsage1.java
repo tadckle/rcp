@@ -57,7 +57,7 @@ public class TableViewerUsage1 implements ShellRunner {
     tableViewer = ViewerFactory.instance()
         .enableSort(new SimpleDateFormat("dd-MM-yyyy"))
         .createTableViewer(parent, SWT.CHECK | SWT.FULL_SELECTION);
-    tableViewer.setFilters(viewerFilter);
+    tableViewer.addFilter(viewerFilter);
     tableViewer.setContentProvider(new StudentTableContentProvider());
 
     tableViewer.refresh();
