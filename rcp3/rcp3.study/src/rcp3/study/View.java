@@ -28,11 +28,14 @@ public class View extends ViewPart {
 
   private List<GridViewerColumn> viewerColumns = new ArrayList<>();
 
+  private ViewInput viewInput;
+
   /**
    * This is a callback that will allow us to create the viewer and initialize it.
    */
   @Override
   public void createPartControl(Composite parent) {
+//    System.out.println("Sum is " + viewInput.getSum());
     parent.setLayout(new GridLayout(1, false));
 
     GridTableViewer tableViewer = ViewerFactory.instance()
@@ -98,4 +101,5 @@ public class View extends ViewPart {
   public void setFocus() {
     // Do nothing.
   }
+
 }

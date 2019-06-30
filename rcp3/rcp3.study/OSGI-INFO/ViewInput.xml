@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="rcp3.study">
+   <implementation class="rcp3.study.ViewInput"/>
+   <reference cardinality="1..1" interface="rcp3.service.api.Calculate" name="Calculate" policy="static"
+      bind="setCalculate" unbind="unsetCalculate" />
+</scr:component>

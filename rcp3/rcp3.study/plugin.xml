@@ -53,5 +53,19 @@
          </menu>
       </menuContribution>
    </extension>
+   <extension
+         point="org.eclipse.equinox.http.registry.servlets">
+      <servlet
+            alias="/hello"
+            class="rcp3.study.servlet.HelloWorld">
+      </servlet>
+   </extension>
+ <extension
+       point="org.eclipse.equinox.http.registry.resources">
+    <resource
+          alias="/site"
+          base-name="/web-files/index.html">
+    </resource>
+ </extension>
 
 </plugin>
