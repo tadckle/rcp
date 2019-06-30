@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Impl
+Bundle-SymbolicName: rcp3.service.api.impl
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: rcp3.service.api.impl.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ rcp3.service.api;bundle-version="1.0.0"
+Automatic-Module-Name: rcp3.service.api.impl
+Bundle-ActivationPolicy: lazy
+Service-Component: OSGI-INFO/component.xml,
+ OSGI-INFO/CalculateUser.xml
+Export-Package: rcp3.service.api.impl

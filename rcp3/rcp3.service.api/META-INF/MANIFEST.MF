@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Api
+Bundle-SymbolicName: rcp3.service.api
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: rcp3.service.api.Activator
+Require-Bundle: org.eclipse.core.runtime
+Automatic-Module-Name: rcp3.service.api
+Bundle-ActivationPolicy: lazy
+Export-Package: rcp3.service.api
