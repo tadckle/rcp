@@ -5,6 +5,8 @@
   <groupId>rcp3.study</groupId>
   <artifactId>rcp3.study</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
   <build>
     <sourceDirectory>src</sourceDirectory>
     <resources>
@@ -29,12 +31,30 @@
         <executions>
           <execution>
             <id>copy-dependencies</id>
-            <phase>verify</phase>
+            <phase>clean</phase>
             <goals>
               <goal>copy-dependencies</goal>
             </goals>
             <configuration>
+              <!-- Don't wanna .classpath update due to version change -->
+              <stripVersion>true</stripVersion>
               <outputDirectory>maven-lib</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>false</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-dependencies-sources</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <classifier>sources</classifier>
+              <!-- Don't wanna .classpath update due to version change -->
+              <stripVersion>true</stripVersion>
+              <outputDirectory>maven-lib/sources</outputDirectory>
               <overWriteReleases>false</overWriteReleases>
               <overWriteSnapshots>false</overWriteSnapshots>
               <overWriteIfNewer>true</overWriteIfNewer>
@@ -53,9 +73,9 @@
           </excludes>
         </configuration>
       </plugin>
-
     </plugins>
   </build>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -105,5 +125,11 @@
       <artifactId>rxjava</artifactId>
       <version>2.1.16</version>
     </dependency>
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib</artifactId>
+      <version>3.2.12</version>
+    </dependency>
   </dependencies>
+
 </project>
